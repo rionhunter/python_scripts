@@ -8,6 +8,7 @@
 import os
 import easygui
 import re
+import sys
 
 def get_file_list(directory, filetype):
     """
@@ -16,6 +17,7 @@ def get_file_list(directory, filetype):
     file_list = []
     for root, dirs, files in os.walk(directory):
         for file in files:
+            print('found ' + file)
             if file.endswith(filetype):
                 file_list.append(os.path.join(root, file))
     return file_list
@@ -33,9 +35,17 @@ def search_files(file_list, phrase):
     return results
 
 def main():
-    directory = easygui.diropenbox()
-    filetype = easygui.enterbox(msg='Enter filetype to search for')
-    phrase = easygui.enterbox(msg='Enter phrase to search for')
+    if len(sys.argv) > 1:
+        print(sys.argv)
+        directory = sys.argv[1]
+        if len(sys.argv) > 2:
+            filetype = sys.argv[2]
+            if len(sys.argv) > 3:
+                phrase = sys.argv[3]
+    else:
+        directory = easygui.diropenbox()
+        filetype = easygui.enterbox(msg='Enter filetype to search for')
+        phrase = easygui.enterbox(msg='Enter phrase to search for')
     file_list = get_file_list(directory, filetype)
     results = search_files(file_list, phrase)
     easygui.textbox(msg='Results', text='\n'.join(['{}:{}'.format(result[0], result[1]) for result in results]))
