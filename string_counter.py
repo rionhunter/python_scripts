@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 1. using easyGUI, ask the user for a body of text (that will be a combination of numbers with decimal points jumbled up amongst text)
 2. scrape all the figures from the text
@@ -35,5 +36,8 @@ def main():
     total = add_numbers(numbers)
     display_total(total)
     copy_to_clipboard(total)
+
+main()
+tal)
 
 main()

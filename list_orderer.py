@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 LINE RENUMBERER - replace original numbers at start of lines with order they appeared ine
 1. if most lines of the string in the clipboard don't start with a number, quit

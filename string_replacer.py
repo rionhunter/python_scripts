@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 string replacer
 1. if all the variables aren't provided through system arguments, ask for them using easyGUI

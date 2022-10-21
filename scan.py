@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 1. using easyGUI, ask for a directory, filetype, and phrase
 2. recursively scan the directory for files of the selected filetype, then read thefiles for the phrase.
@@ -50,4 +51,6 @@ def main():
     easygui.textbox(msg='Results', text='\n'.join(['{}:{}'.format(result[0], result[1]) for result in results]))
 
 if __name__ == '__main__':
+    main()
+_ == '__main__':
     main()

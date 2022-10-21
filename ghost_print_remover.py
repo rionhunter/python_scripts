@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 1. using easyGUI, ask the user for a directory, and a filetype
 2. recursively scan the directories for all applicable files

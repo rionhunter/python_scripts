@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 1. expect multiple image files to be dragged onto the script as incoming args
     - if no scripts present, use easyGUI to ask the user for image files
@@ -60,3 +61,4 @@ for file in incoming_files:
     else:
         # if the file is not an image, print an error message
         print("Error: " + file + " is not an image file.")
+ " + file + " is not an image file.")
