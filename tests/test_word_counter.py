@@ -1,5 +1,5 @@
 import unittest
-from word_counter import count_words
+from utils.text_utils.word_counter import count_words
 
 class TestWordCounter(unittest.TestCase):
     def test_count_words(self):

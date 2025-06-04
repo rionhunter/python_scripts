@@ -1,5 +1,5 @@
 import unittest
-from sort_lines import sort_lines
+from utils.text_utils.sort_lines import sort_lines
 
 class TestSortLines(unittest.TestCase):
     def test_sort_lines(self):

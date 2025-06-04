@@ -1,6 +1,6 @@
 import unittest
-from tabs_to_spaces import tabs_to_spaces
-from spaces_to_tabs import spaces_to_tabs
+from utils.text_utils.tabs_to_spaces import tabs_to_spaces
+from utils.text_utils.spaces_to_tabs import spaces_to_tabs
 
 class TestTabSpaceConversion(unittest.TestCase):
     def test_tabs_to_spaces(self):

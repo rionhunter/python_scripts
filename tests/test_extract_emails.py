@@ -1,5 +1,5 @@
 import unittest
-from extract_emails import extract_emails
+from utils.text_utils.extract_emails import extract_emails
 
 class TestExtractEmails(unittest.TestCase):
     def test_extract_emails(self):

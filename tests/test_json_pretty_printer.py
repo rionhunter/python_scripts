@@ -1,6 +1,6 @@
 import json
 import unittest
-from json_pretty_printer import pretty_json
+from utils.text_utils.json_pretty_printer import pretty_json
 
 class TestJsonPrettyPrinter(unittest.TestCase):
     def test_pretty_json(self):

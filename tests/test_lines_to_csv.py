@@ -1,5 +1,5 @@
 import unittest
-from lines_to_csv import lines_to_csv_string
+from utils.text_utils.lines_to_csv import lines_to_csv_string
 
 class TestLinesToCsv(unittest.TestCase):
     def test_lines_to_csv(self):

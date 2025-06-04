@@ -1,7 +1,7 @@
 import os
 import tempfile
 import unittest
-from file_renamer import rename_files
+from utils.file_utils.file_renamer import rename_files
 
 class TestFileRenamer(unittest.TestCase):
     def setUp(self):
