@@ -1,0 +1,35 @@
+project_files = [
+    '/path/to/stock-management-software/chatgpt/chatgpt_api.py',
+    '/path/to/stock-management-software/chatgpt/chatgpt_interface.py',
+    '/path/to/stock-management-software/chatgpt/whisper_api.py',
+    '/path/to/stock-management-software/database/models.py',
+    '/path/to/stock-management-software/database/database.py',
+    '/path/to/stock-management-software/voice_command/voice_commands.py',
+    '/path/to/stock-management-software/voice_command/import_data.py',
+    '/path/to/stock-management-software/voice_command/audio_feedback.py',
+    '/path/to/stock-management-software/stock_insights/reports.py',
+    '/path/to/stock-management-software/stock_insights/visualizations.py',
+    '/path/to/stock-management-software/stock_insights/charts.py',
+    '/path/to/stock-management-software/associative_stock_location/location_algorithm.py',
+    '/path/to/stock-management-software/associative_stock_location/track_location.py',
+    '/path/to/stock-management-software/associative_stock_location/retrieval.py',
+    '/path/to/stock-management-software/README.md'
+]
+
+empty_files = [
+    '/path/to/stock-management-software/chatgpt/requirements.txt',
+    '/path/to/stock-management-software/database/requirements.txt',
+    '/path/to/stock-management-software/voice_command/requirements.txt',
+    '/path/to/stock-management-software/stock_insights/requirements.txt',
+    '/path/to/stock-management-software/associative_stock_location/requirements.txt'
+]
+
+directories = [
+    '/path/to/stock-management-software/chatgpt',
+    '/path/to/stock-management-software/database',
+    '/path/to/stock-management-software/voice_command',
+    '/path/to/stock-management-software/stock_insights',
+    '/path/to/stock-management-software/associative_stock_location'
+]
+
+main_file = '/path/to/stock-management-software/chatgpt/chatgpt_api.py'

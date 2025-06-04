@@ -1,0 +1,38 @@
+project_files = [
+    'gui/__init__.py',
+    'gui/main_gui.py',
+    'gui/helper_functions.py',
+    'image_capture/screenshot.py',
+    'image_capture/program_capture.py',
+    'image_capture/active_program_capture.py',
+    'timelapse_generation/generate_timelapse.py',
+    'timelapse_generation/combine_images.py',
+    'timelapse_generation/add_effects.py',
+    'customization_options/settings.py',
+    'customization_options/transitions.py',
+    'customization_options/output.py',
+    'error_handling/error_handler.py',
+    'documentation/user_guide.pdf',
+    'README.md'
+]
+
+empty_files = [
+    'gui/__init__.py',
+    'gui/helper_functions.py',
+    'image_capture/__init__.py',
+    'timelapse_generation/__init__.py',
+    'customization_options/__init__.py',
+    'error_handling/__init__.py',
+    'README.md'
+]
+
+directories = [
+    'gui',
+    'image_capture',
+    'timelapse_generation',
+    'customization_options',
+    'error_handling',
+    'documentation'
+]
+
+main_file = 'gui/main_gui.py'

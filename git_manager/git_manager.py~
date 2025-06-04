@@ -1,0 +1,95 @@
+import argparse
+import os
+import time
+import tkinter as tk
+from tkinter import simpledialog, messagebox
+import tkinter.filedialog as filedialog
+from git import Repo
+
+class GitManager:
+    def __init__(self):
+        self.repos = self.read_repos()
+        self.root = tk.Tk()
+        self.listbox = tk.Listbox(self.root)
+        self.listbox.pack()
+        self.buttons = {
+            'Add': self.add,
+            'Update All': self.update_all,
+            'Increment': self.increment,
+            'Delete': self.delete
+        }
+        for text, command in self.buttons.items():
+            tk.Button(self.root, text=text, command=command).pack()
+        self.refresh_listbox()
+
+    def read_repos(self):
+        if not os.path.exists('repos.txt'):
+            return {}
+        with open('repos.txt', 'r') as f:
+            lines = f.readlines()
+        repos = {}
+        for line in lines:
+            path, version = line.strip().split('::')
+            repos[path] = version
+        return repos
+
+    def write_repos(self):
+        with open('repos.txt', 'w') as f:
+            for path, version in self.repos.items():
+                f.write(f'{path}::{version}\n')
+
+    def refresh_listbox(self):
+        self.listbox.delete(0, tk.END)
+        for path, version in self.repos.items():
+            self.listbox.insert(tk.END, f'{path} - {version}')
+
+    def add(self):
+        path = filedialog.askdirectory(title='Select the repository:')
+        version = simpledialog.askstring('Add repository', 'Enter the current version:')
+        if path and version:
+            self.repos[path] = version
+            self.write_repos()
+            self.refresh_listbox()
+        else:
+            messagebox.showerror("Error", "Path and version are required.")
+
+    def update_all(self):
+        for path, version in self.repos.items():
+            repo = Repo(path)
+            repo.git.add('--all')
+            repo.index.commit(f'Version {version} - {time.strftime("%Y-%m-%d")}')
+            origin = repo.remote(name='origin')
+            origin.push()
+
+    def increment(self):
+        index = self.listbox.curselection()[0]
+        path = list(self.repos.keys())[index]
+        version = self.repos[path]
+        scope = simpledialog.askinteger('Increment version', 'Enter the scope of increment (1 for vA.B.C.D, 2 for vA.B.C, etc.):')
+        version_parts = version.split('.')
+        version_parts[-scope] = str(int(version_parts[-scope]) + 1)
+        for i in range(scope-1):
+            version_parts[-i-1] = '0'
+        new_version = '.'.join(version_parts)
+        self.repos[path] = new_version
+        self.write_repos()
+        self.refresh_listbox()
+
+    def delete(self):
+        index = self.listbox.curselection()[0]
+        path = list(self.repos.keys())[index]
+        del self.repos[path]
+        self.write_repos()
+        self.refresh_listbox()
+
+    def run(self):
+        parser = argparse.ArgumentParser()
+        parser.add_argument('--auto', action='store_true', help='automatically update all repositories and then exit')
+        args = parser.parse_args()
+        if args.auto:
+            self.update_all()
+        else:
+            self.root.mainloop()
+
+if __name__ == '__main__':
+    GitManager().run()

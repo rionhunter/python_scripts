@@ -1,0 +1,121 @@
+import bpy
+import bmesh
+import random
+
+# Clear existing mesh objects
+bpy.ops.object.select_all(action='DESELECT')
+bpy.ops.object.select_by_type(type='MESH')
+bpy.ops.object.delete()
+
+# Constants
+hallway_length = 10
+hallway_width = 2
+num_rooms = 4
+min_room_size = 3
+max_room_size = 5
+wall_height = 3
+
+# Define the central hallway
+hallway = {
+    'length': hallway_length,
+    'width': hallway_width,
+    'position': (0, 0)
+}
+
+# Functions to generate rooms and check overlaps
+def generate_room(hallway_length, hallway_width, min_room_size, max_room_size, max_attempts=100):
+    for _ in range(max_attempts):
+        width = random.randint(min_room_size, max_room_size)
+        length = random.randint(min_room_size, max_room_size)
+        position_x = random.randint(0, hallway_length - length)
+        position_y = random.choice([-1, 1]) * (hallway_width / 2 + width / 2)
+
+        room = {
+            'width': width,
+            'length': length,
+            'position': (position_x, position_y)
+        }
+
+        if not check_overlap_with_hallway(room, hallway_length, hallway_width):
+            return room
+    return None
+
+def check_overlap_with_hallway(room, hallway_length, hallway_width):
+    room_x1, room_y1 = room['position']
+    room_x2, room_y2 = room_x1 + room['length'], room_y1 + room['width']
+    hallway_x1, hallway_y1 = 0, -hallway_width / 2
+    hallway_x2, hallway_y2 = hallway_length, hallway_width / 2
+
+    return (
+        (room_x1 < hallway_x2) and (room_x2 > hallway_x1) and
+        (room_y1 < hallway_y2) and (room_y2 > hallway_y1)
+    )
+
+def generate_rooms(num_rooms, hallway_length, hallway_width, min_room_size, max_room_size):
+    rooms = []
+    for _ in range(num_rooms):
+        room = generate_room(hallway_length, hallway_width, min_room_size, max_room_size)
+        if room and not any(check_overlap(room, existing_room) for existing_room in rooms):
+            rooms.append(room)
+    return rooms
+
+def check_overlap(room1, room2):
+    room1_x1, room1_y1 = room1['position']
+    room1_x2, room1_y2 = room1_x1 + room1['length'], room1_y1 + room1['width']
+    room2_x1, room2_y1 = room2['position']
+    room2_x2, room2_y2 = room2_x1 + room2['length'], room2_y1 + room2['width']
+
+    return (
+        (room1_x1 < room2_x2) and (room1_x2 > room2_x1) and
+        (room1_y1 < room2_y2) and (room1_y2 > room2_y1)
+    )
+
+# Generate a list of rooms
+rooms = generate_rooms(num_rooms, hallway_length, hallway_width, min_room_size, max_room_size)
+
+# Create a new mesh object for the floorplan
+mesh = bpy.data.meshes.new('Floorplan')
+obj = bpy.data.objects.new('Floorplan', mesh)
+bpy.context.collection.objects.link(obj)
+
+# Generate the mesh data (vertices and edges)
+def create_floorplan(floorplan):
+    bm = bmesh.new()
+    for element in floorplan:
+        create_rectangle(bm, element['position'], element['length'], element['width'])
+
+    bm.to_mesh(mesh)
+    bm.free()
+
+def create_rectangle(bm, position, length, width):
+    x, y = position
+    coords = [
+        (x, y, 0),
+        (x + length, y, 0),
+        (x + length, y + width, 0),
+        (x, y + width, 0)
+    ]
+    verts = [bm.verts.new(coord) for coord in coords]
+    bm.edges.new(verts)
+    bm.edges.new([verts[-1], verts[0]])
+
+# Generate the floorplan
+floorplan = [hallway] + rooms
+create_floorplan(floorplan)
+
+# Extrude the walls
+def extrude_walls(mesh, height):
+    bm = bmesh.new()
+    bm.from_mesh(mesh)
+    edges = list(bm.edges[:])
+
+    for edge in edges:
+        if not edge.is_boundary:
+            continue
+        faces = bmesh.ops.extrude_edge_only(bm, edges=[edge])['geom']
+        bmesh.ops.translate(bm, vec=(0, 0, height), verts=[v for v in faces if isinstance(v, bmesh.types.BMVert)])
+
+    bm.to_mesh(mesh)
+    bm.free()
+
+extrude_walls(mesh, wall_height)

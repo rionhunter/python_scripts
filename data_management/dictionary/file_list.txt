@@ -1,0 +1,28 @@
+project_files = [
+    "main.py",
+    "gui/window.py",
+    "gui/create_dictionary_window.py",
+    "gui/add_slots_window.py",
+    "gui/edit_slots_window.py",
+    "gui/duplicate_dict_window.py",
+    "dictionary/dictionary.py",
+    "file_io/save_load.py",
+    "file_io/export.py",
+    "external_module/access.py"
+]
+
+empty_files = [
+    "gui/__init__.py",
+    "dictionary/__init__.py",
+    "file_io/__init__.py",
+    "external_module/__init__.py"
+]
+
+directories = [
+    "gui",
+    "dictionary",
+    "file_io",
+    "external_module"
+]
+
+main_file = "main.py"

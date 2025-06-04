@@ -1,0 +1,1 @@
+screencap timelapse with gui where the user can choose the frequency of image captured, and whether they want to capture a particular program, screen, or the screen with the currently active program.

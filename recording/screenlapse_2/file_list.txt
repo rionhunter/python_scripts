@@ -1,0 +1,51 @@
+project_files = [
+    'package_compiler/scripts/directory_scanner.py',
+    'package_compiler/scripts/import_extractor.py',
+    'package_compiler/scripts/package_analyzer.py',
+    'package_compiler/scripts/requirements_generator.py',
+    'package_compiler/main.py',
+    'package_compiler/README.md',
+    'package_compiler/scripts/directory_scanner/directory_scanner.py',
+    'package_compiler/scripts/import_extractor/import_extractor.py',
+    'package_compiler/scripts/package_analyzer/package_analyzer.py',
+    'package_compiler/scripts/requirements_generator/requirements_generator.py',
+    'package_compiler/scripts/utils/file_utils.py',
+    'package_compiler/scripts/utils/directory_utils.py',
+    'package_compiler/data/requirements.txt',
+    'package_compiler/tests/test_directory_scanner.py',
+    'package_compiler/tests/test_import_extractor.py',
+    'package_compiler/tests/test_package_analyzer.py',
+    'package_compiler/tests/test_requirements_generator.py',
+    'package_compiler/tests/test_directory_scanner/test_directory_scanner.py',
+    'package_compiler/tests/test_import_extractor/test_import_extractor.py',
+    'package_compiler/tests/test_package_analyzer/test_package_analyzer.py',
+    'package_compiler/tests/test_requirements_generator/test_requirements_generator.py'
+]
+
+empty_files = [
+    'package_compiler/data/requirements.txt',
+    'package_compiler/main.py',
+    'package_compiler/README.md'
+]
+
+directories = [
+    'package_compiler',
+    'package_compiler/scripts',
+    'package_compiler/scripts/directory_scanner',
+    'package_compiler/scripts/import_extractor',
+    'package_compiler/scripts/package_analyzer',
+    'package_compiler/scripts/requirements_generator',
+    'package_compiler/scripts/utils',
+    'package_compiler/data',
+    'package_compiler/tests',
+    'package_compiler/tests/test_directory_scanner',
+    'package_compiler/tests/test_import_extractor',
+    'package_compiler/tests/test_package_analyzer',
+    'package_compiler/tests/test_requirements_generator',
+    'package_compiler/tests/test_directory_scanner/test_directory_scanner',
+    'package_compiler/tests/test_import_extractor/test_import_extractor',
+    'package_compiler/tests/test_package_analyzer/test_package_analyzer',
+    'package_compiler/tests/test_requirements_generator/test_requirements_generator'
+]
+
+main_file = 'package_compiler/main.py'

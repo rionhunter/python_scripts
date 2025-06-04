@@ -1,0 +1,1 @@
+A package compiler for Python where it goes through each script within a direct ory and assesses all of the things that need to be pip installed what aren't standard default packages for Python that the user might need to import to make the project functional for them and then produces a text file with a list of all the requirements

@@ -1,0 +1,1 @@
+{"blender_exe": "C:/Program Files (x86)/Steam/steamapps/common/Blender/blender.exe", "blend_file": "C:/Users/rionh/Documents/Catalogue/Procedural_animations/flowstate_frame_001.blend", "output_folder": "C:/Users/rionh/Documents/Renders/Flowstate_disc", "start_frame": "1", "end_frame": "250", "frame_step": "1", "gpu_index": "2", "compute_device": "OPTIX"}

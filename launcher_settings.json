@@ -1,0 +1,53 @@
+{
+  "blacklist": [
+    "C:/Users/rionh/Documents/Catalogue/scripts/Python\\.autoscript",
+    "C:/Users/rionh/Documents/Catalogue/scripts/Python\\blender",
+    "C:/Users/rionh/Documents/Catalogue/scripts/Python\\launcher.py",
+    "C:\\Users\\rionh\\Documents\\Catalogue\\scripts\\Python\\.autoscript",
+    "C:\\Users\\rionh\\Documents\\Catalogue\\scripts\\Python\\blender",
+    "C:/Users/rionh/Documents/Catalogue/scripts/Python\\GPU",
+    "C:\\Users\\rionh\\Documents\\Catalogue\\scripts\\Python\\HUD",
+    "C:\\Users\\rionh\\Documents\\Catalogue\\scripts\\Python\\GPU",
+    "C:\\Users\\rionh\\Documents\\Catalogue\\scripts\\Python\\LPHK",
+    "C:\\Users\\rionh\\Documents\\Catalogue\\scripts\\Python\\Leap Motion",
+    "C:\\Users\\rionh\\Documents\\Catalogue\\scripts\\Python\\Ubuntu",
+    "C:\\Users\\rionh\\Documents\\Catalogue\\scripts\\Python\\godot_augment",
+    "C:/Users/rionh/Documents/Catalogue/scripts/Python\\HUD",
+    "C:/Users/rionh/Documents/Catalogue/scripts/Python\\LPHK",
+    "C:/Users/rionh/Documents/Catalogue/scripts/Python\\Leap Motion",
+    "C:/Users/rionh/Documents/Catalogue/scripts/Python\\Ubuntu",
+    "C:/Users/rionh/Documents/Catalogue/scripts/Python\\launcher_a.py"
+  ],
+  "folder_color": "#8c2f30",
+  "folder_outline_color": "#f9f9f9",
+  "highlight_new": true,
+  "button_icons": {
+    "C:\\Users\\rionh\\Documents\\Catalogue\\scripts\\Python\\HUD": "C:/Users/rionh/Documents/Art/2021_icons-assets/currentIcon.png",
+    "C:\\Users\\rionh\\Documents\\Catalogue\\scripts": "C:/Users/rionh/Documents/Art/2021_icons-assets/softwareIcon.png"
+  },
+  "cols": 6,
+  "alpha_order": false,
+  "excluded": [],
+  "pinned": [
+    "C:/Users/rionh/Documents/Catalogue/scripts/Python/text_editing\\folder_of_text_to_solo_doc.py",
+    "C:/Users/rionh/Documents/Catalogue/scripts/Python\\Writing"
+  ],
+  "layout_order": [],
+  "button_colors": {
+    "C:/Users/rionh/Documents/Catalogue/scripts/Python/text_editing\\escapade_parse.py": "#1874ff",
+    "C:/Users/rionh/Documents/Catalogue/scripts/Python\\Media": "#88ff00",
+    "C:/Users/rionh/Documents/Catalogue/scripts/Python/text_editing\\folder_of_text_to_solo_doc.py": "#bf00ff",
+    "C:/Users/rionh/Documents/Catalogue/scripts/Python\\image_alteration": "#19a645"
+  },
+  "default_color": "#000000",
+  "new_outline_color": "#ff0000",
+  "button_height": 40,
+  "font_color": "#ff7700",
+  "rows": 5,
+  "fav_rows": 1,
+  "last_folder": "C:/Users/rionh/Documents/Catalogue/scripts/Python",
+  "known_scripts": [],
+  "button_font_colors": {
+    "C:\\Users\\rionh\\Documents\\Catalogue\\scripts\\Python": "#212121"
+  }
+}
