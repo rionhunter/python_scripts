@@ -1,0 +1,13 @@
+Duplicate or backup scripts:
+- Files/icon_changer.py~
+- Files/list_files.py~
+- image_alteration/image_scale_reducer.py~
+- git_manager/git_manager.py~
+- bpyGPT.py~
+- Writing/json_to_screenplay.py~
+- blender/Generators/Structures/blueprint_to_svg.py~
+
+Unfinished or empty scripts:
+- GPU/run_gpu_check.py (one line command)
+- blender/Utilities/decouple_top_level_from_parents.py (incomplete)
+- recording/vlogStation/vlog.py (empty file)
