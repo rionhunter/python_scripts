@@ -1,7 +1,7 @@
 import os
 import tempfile
 import unittest
-from find_large_files import find_large_files
+from utils.file_utils.find_large_files import find_large_files
 
 class TestFindLargeFiles(unittest.TestCase):
     def setUp(self):

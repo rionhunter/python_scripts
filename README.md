@@ -17,3 +17,12 @@ useful catalogue of scripts for helping work on other things (mainly built aroun
 - good for icons
 
 # string counter
+
+## Utilities layout
+
+Scripts are now organized under `utils/`:
+- `text_utils` contains text manipulation helpers
+- `file_utils` includes file management scripts
+- `image_utils` groups image conversion tools
+
+See each folder for more details and additional utilities.

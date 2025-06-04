@@ -1,7 +1,7 @@
 import os
 import tempfile
 import unittest
-from duplicate_file_finder import hash_file, find_duplicates
+from utils.file_utils.duplicate_file_finder import hash_file, find_duplicates
 
 class TestDuplicateFileFinder(unittest.TestCase):
     def setUp(self):
