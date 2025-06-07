@@ -259,6 +259,50 @@
       "moviepy"
     ]
   },
+  "audio_editing/audio_trim.py": {
+    "tags": [
+      "audio",
+      "trim",
+      "pydub"
+    ],
+    "usage": 0,
+    "deps": [
+      "pydub"
+    ]
+  },
+  "audio_editing/audio_normalizer.py": {
+    "tags": [
+      "audio",
+      "normalize",
+      "pydub"
+    ],
+    "usage": 0,
+    "deps": [
+      "pydub"
+    ]
+  },
+  "audio_editing/audio_converter.py": {
+    "tags": [
+      "audio",
+      "convert",
+      "pydub"
+    ],
+    "usage": 0,
+    "deps": [
+      "pydub"
+    ]
+  },
+  "audio_editing/audio_merge.py": {
+    "tags": [
+      "audio",
+      "merge",
+      "pydub"
+    ],
+    "usage": 0,
+    "deps": [
+      "pydub"
+    ]
+  },
   "utils/__init__.py": {
     "tags": [
       "init",
