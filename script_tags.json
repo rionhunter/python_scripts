@@ -1,0 +1,1680 @@
+{
+  "linux_compatibility.py": {
+    "tags": [
+      "compatibility",
+      "linux"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "clipboard_lines_to_string_array.py": {
+    "tags": [
+      "array",
+      "clipboard",
+      "lines",
+      "string",
+      "to"
+    ],
+    "usage": 0,
+    "deps": [
+      "pyperclip"
+    ]
+  },
+  "scan.py": {
+    "tags": [
+      "scan"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "scriptboard.py": {
+    "tags": [
+      "scriptboard"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "bad_text_scanner.py": {
+    "tags": [
+      "bad",
+      "scanner",
+      "text"
+    ],
+    "usage": 0,
+    "deps": [
+      "easygui"
+    ]
+  },
+  "clipboard_text_replacer.py": {
+    "tags": [
+      "clipboard",
+      "replacer",
+      "text"
+    ],
+    "usage": 0,
+    "deps": [
+      "pyperclip",
+      "easygui"
+    ]
+  },
+  "deprinter.py": {
+    "tags": [
+      "deprinter"
+    ],
+    "usage": 0,
+    "deps": [
+      "easygui"
+    ]
+  },
+  "launcher_a.py": {
+    "tags": [
+      "a",
+      "launcher"
+    ],
+    "usage": 0,
+    "deps": [
+      "PyQt6"
+    ]
+  },
+  "launcher.py": {
+    "tags": [
+      "launcher"
+    ],
+    "usage": 0,
+    "deps": [
+      "PyQt6"
+    ]
+  },
+  "quick_launcher.py": {
+    "tags": [
+      "launcher",
+      "quick"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "clipboard_cvs_to_array.py": {
+    "tags": [
+      "array",
+      "clipboard",
+      "cvs",
+      "to"
+    ],
+    "usage": 0,
+    "deps": [
+      "pyperclip"
+    ]
+  },
+  "ghost_print_remover.py": {
+    "tags": [
+      "ghost",
+      "print",
+      "remover"
+    ],
+    "usage": 0,
+    "deps": [
+      "easygui"
+    ]
+  },
+  "shortcut_text_formatter.py": {
+    "tags": [
+      "formatter",
+      "shortcut",
+      "text"
+    ],
+    "usage": 0,
+    "deps": [
+      "easygui"
+    ]
+  },
+  "image_alteration/png_inverter.py": {
+    "tags": [
+      "alteration",
+      "image",
+      "inverter",
+      "png"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "image_alteration/cropper.py": {
+    "tags": [
+      "alteration",
+      "cropper",
+      "image"
+    ],
+    "usage": 0,
+    "deps": [
+      "PyQt5"
+    ]
+  },
+  "image_alteration/degreen_screen.py": {
+    "tags": [
+      "alteration",
+      "degreen",
+      "image",
+      "screen"
+    ],
+    "usage": 0,
+    "deps": [
+      "cv2",
+      "PIL",
+      "numpy"
+    ]
+  },
+  "image_alteration/transparency_islands.py": {
+    "tags": [
+      "alteration",
+      "image",
+      "islands",
+      "transparency"
+    ],
+    "usage": 0,
+    "deps": [
+      "PIL"
+    ]
+  },
+  "image_alteration/image_scale_reducer.py": {
+    "tags": [
+      "alteration",
+      "image",
+      "reducer",
+      "scale"
+    ],
+    "usage": 0,
+    "deps": [
+      "easygui",
+      "PIL"
+    ]
+  },
+  "image_alteration/luminence_to_transparency.py": {
+    "tags": [
+      "alteration",
+      "image",
+      "luminence",
+      "to",
+      "transparency"
+    ],
+    "usage": 0,
+    "deps": [
+      "PIL"
+    ]
+  },
+  "image_alteration/invert_transparent_png.py": {
+    "tags": [
+      "alteration",
+      "image",
+      "invert",
+      "png",
+      "transparent"
+    ],
+    "usage": 0,
+    "deps": [
+      "PIL"
+    ]
+  },
+  "image_alteration/image_isolater.py": {
+    "tags": [
+      "alteration",
+      "image",
+      "isolater"
+    ],
+    "usage": 0,
+    "deps": [
+      "PyQt5",
+      "PIL"
+    ]
+  },
+  "Media/MP4_audio_extractor.py": {
+    "tags": [
+      "audio",
+      "extractor",
+      "media",
+      "mp4"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "clipboard_magic/list_orderer.py": {
+    "tags": [
+      "clipboard",
+      "list",
+      "magic",
+      "orderer"
+    ],
+    "usage": 0,
+    "deps": [
+      "pyperclip"
+    ]
+  },
+  "youtube/audio_snippet.py": {
+    "tags": [
+      "audio",
+      "snippet",
+      "youtube"
+    ],
+    "usage": 0,
+    "deps": [
+      "pytube",
+      "moviepy"
+    ]
+  },
+  "utils/__init__.py": {
+    "tags": [
+      "init",
+      "utils"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  ".autoscript/backup_20231023174131.py": {
+    "tags": [
+      ".autoscript",
+      "20231023174131",
+      "backup"
+    ],
+    "usage": 0,
+    "deps": [
+      "AI",
+      "data",
+      "autoscript"
+    ]
+  },
+  ".autoscript/autoscript.py": {
+    "tags": [
+      ".autoscript",
+      "autoscript"
+    ],
+    "usage": 0,
+    "deps": [
+      "openai"
+    ]
+  },
+  "blender/single_GPU_render_with_intervals.py": {
+    "tags": [
+      "blender",
+      "gpu",
+      "intervals",
+      "render",
+      "single",
+      "with"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "blender/run_single_GPU.py": {
+    "tags": [
+      "blender",
+      "gpu",
+      "run",
+      "single"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "HUD/__main__.py": {
+    "tags": [
+      "hud",
+      "main"
+    ],
+    "usage": 0,
+    "deps": [
+      "PIL"
+    ]
+  },
+  "gatherers/commons.py": {
+    "tags": [
+      "commons",
+      "gatherers"
+    ],
+    "usage": 0,
+    "deps": [
+      "flickrapi",
+      "requests",
+      "PIL"
+    ]
+  },
+  "command_line/sys_args_test_log.py": {
+    "tags": [
+      "args",
+      "command",
+      "line",
+      "log",
+      "sys",
+      "test"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "command_line/sys_args_test_print.py": {
+    "tags": [
+      "args",
+      "command",
+      "line",
+      "print",
+      "sys",
+      "test"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "gpt_augment/zim_formatter.py": {
+    "tags": [
+      "augment",
+      "formatter",
+      "gpt",
+      "zim"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "experiments/menu_experiments.py": {
+    "tags": [
+      "experiments",
+      "menu"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "git_manager/git_manager.py": {
+    "tags": [
+      "git",
+      "manager"
+    ],
+    "usage": 0,
+    "deps": [
+      "git"
+    ]
+  },
+  "maths/area.py": {
+    "tags": [
+      "area",
+      "maths"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "Writing/json_to_screenplay.py": {
+    "tags": [
+      "json",
+      "screenplay",
+      "to",
+      "writing"
+    ],
+    "usage": 0,
+    "deps": [
+      "reportlab"
+    ]
+  },
+  "Files/icon_changer.py": {
+    "tags": [
+      "changer",
+      "files",
+      "icon"
+    ],
+    "usage": 0,
+    "deps": [
+      "easygui"
+    ]
+  },
+  "Files/list_files.py": {
+    "tags": [
+      "files",
+      "list"
+    ],
+    "usage": 0,
+    "deps": [
+      "easygui"
+    ]
+  },
+  "tests/__init__.py": {
+    "tags": [
+      "init",
+      "tests"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "godot_augment/x_names_to_array.py": {
+    "tags": [
+      "array",
+      "augment",
+      "godot",
+      "names",
+      "to",
+      "x"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "text_editing/chapter_compiler.py": {
+    "tags": [
+      "chapter",
+      "compiler",
+      "editing",
+      "text"
+    ],
+    "usage": 0,
+    "deps": [
+      "natsort"
+    ]
+  },
+  "text_editing/string_counter.py": {
+    "tags": [
+      "counter",
+      "editing",
+      "string",
+      "text"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "text_editing/string_replacer.py": {
+    "tags": [
+      "editing",
+      "replacer",
+      "string",
+      "text"
+    ],
+    "usage": 0,
+    "deps": [
+      "easygui"
+    ]
+  },
+  "text_editing/string_scanner.py": {
+    "tags": [
+      "editing",
+      "scanner",
+      "string",
+      "text"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "text_editing/folder_of_text_to_solo_doc.py": {
+    "tags": [
+      "doc",
+      "editing",
+      "folder",
+      "of",
+      "solo",
+      "text",
+      "to"
+    ],
+    "usage": 0,
+    "deps": [
+      "natsort"
+    ]
+  },
+  "text_editing/wordcount.py": {
+    "tags": [
+      "editing",
+      "text",
+      "wordcount"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "text_editing/escapade_parse.py": {
+    "tags": [
+      "editing",
+      "escapade",
+      "parse",
+      "text"
+    ],
+    "usage": 0,
+    "deps": [
+      "pyperclip"
+    ]
+  },
+  "Leap Motion/leap_demo.py": {
+    "tags": [
+      "demo",
+      "leap",
+      "leap motion"
+    ],
+    "usage": 0,
+    "deps": [
+      "Leap"
+    ]
+  },
+  "data_management/compile.py": {
+    "tags": [
+      "compile",
+      "data",
+      "management"
+    ],
+    "usage": 0,
+    "deps": [
+      "pyperclip"
+    ]
+  },
+  "typing_augment/escapade_mode.py": {
+    "tags": [
+      "augment",
+      "escapade",
+      "mode",
+      "typing"
+    ],
+    "usage": 0,
+    "deps": [
+      "keyboard",
+      "pyperclip"
+    ]
+  },
+  "LPHK/key_listener.py": {
+    "tags": [
+      "key",
+      "listener",
+      "lphk"
+    ],
+    "usage": 0,
+    "deps": [
+      "pynput"
+    ]
+  },
+  "LPHK/text_capture.py": {
+    "tags": [
+      "capture",
+      "lphk",
+      "text"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "utils/text_utils/extract_emails.py": {
+    "tags": [
+      "emails",
+      "extract",
+      "text",
+      "utils"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "utils/text_utils/sort_lines.py": {
+    "tags": [
+      "lines",
+      "sort",
+      "text",
+      "utils"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "utils/text_utils/deduplicate_lines.py": {
+    "tags": [
+      "deduplicate",
+      "lines",
+      "text",
+      "utils"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "utils/text_utils/csv_to_lines.py": {
+    "tags": [
+      "csv",
+      "lines",
+      "text",
+      "to",
+      "utils"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "utils/text_utils/lines_to_csv.py": {
+    "tags": [
+      "csv",
+      "lines",
+      "text",
+      "to",
+      "utils"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "utils/text_utils/string_counter.py": {
+    "tags": [
+      "counter",
+      "string",
+      "text",
+      "utils"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "utils/text_utils/word_frequency.py": {
+    "tags": [
+      "frequency",
+      "text",
+      "utils",
+      "word"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "utils/text_utils/spaces_to_tabs.py": {
+    "tags": [
+      "spaces",
+      "tabs",
+      "text",
+      "to",
+      "utils"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "utils/text_utils/string_replacer.py": {
+    "tags": [
+      "replacer",
+      "string",
+      "text",
+      "utils"
+    ],
+    "usage": 0,
+    "deps": [
+      "easygui"
+    ]
+  },
+  "utils/text_utils/tabs_to_spaces.py": {
+    "tags": [
+      "spaces",
+      "tabs",
+      "text",
+      "to",
+      "utils"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "utils/text_utils/string_scanner.py": {
+    "tags": [
+      "scanner",
+      "string",
+      "text",
+      "utils"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "utils/text_utils/line_counter.py": {
+    "tags": [
+      "counter",
+      "line",
+      "text",
+      "utils"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "utils/text_utils/__init__.py": {
+    "tags": [
+      "init",
+      "text",
+      "utils"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "utils/text_utils/json_pretty_printer.py": {
+    "tags": [
+      "json",
+      "pretty",
+      "printer",
+      "text",
+      "utils"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "utils/text_utils/word_counter.py": {
+    "tags": [
+      "counter",
+      "text",
+      "utils",
+      "word"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "utils/file_utils/file_renamer.py": {
+    "tags": [
+      "file",
+      "renamer",
+      "utils"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "utils/file_utils/list_files_by_type.py": {
+    "tags": [
+      "by",
+      "file",
+      "files",
+      "list",
+      "type",
+      "utils"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "utils/file_utils/find_large_files.py": {
+    "tags": [
+      "file",
+      "files",
+      "find",
+      "large",
+      "utils"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "utils/file_utils/duplicate_file_finder.py": {
+    "tags": [
+      "duplicate",
+      "file",
+      "finder",
+      "utils"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "utils/file_utils/__init__.py": {
+    "tags": [
+      "file",
+      "init",
+      "utils"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "utils/file_utils/remove_empty_dirs.py": {
+    "tags": [
+      "dirs",
+      "empty",
+      "file",
+      "remove",
+      "utils"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "utils/file_utils/folder_size.py": {
+    "tags": [
+      "file",
+      "folder",
+      "size",
+      "utils"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "utils/file_utils/file_extension_changer.py": {
+    "tags": [
+      "changer",
+      "extension",
+      "file",
+      "utils"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "utils/image_utils/png_inverter.py": {
+    "tags": [
+      "image",
+      "inverter",
+      "png",
+      "utils"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "utils/image_utils/image_scale_reducer.py": {
+    "tags": [
+      "image",
+      "reducer",
+      "scale",
+      "utils"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "utils/image_utils/__init__.py": {
+    "tags": [
+      "image",
+      "init",
+      "utils"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "utils/image_utils/convert_to_jpg.py": {
+    "tags": [
+      "convert",
+      "image",
+      "jpg",
+      "to",
+      "utils"
+    ],
+    "usage": 0,
+    "deps": [
+      "PIL",
+      "easygui"
+    ]
+  },
+  "utils/image_utils/image_to_grayscale.py": {
+    "tags": [
+      "grayscale",
+      "image",
+      "to",
+      "utils"
+    ],
+    "usage": 0,
+    "deps": [
+      "PIL",
+      "easygui"
+    ]
+  },
+  "blender/Utilities/empties_at_verticess.py": {
+    "tags": [
+      "at",
+      "blender",
+      "empties",
+      "utilities",
+      "verticess"
+    ],
+    "usage": 0,
+    "deps": [
+      "bpy"
+    ]
+  },
+  "blender/Utilities/empty_to_location_with_constraints.py": {
+    "tags": [
+      "blender",
+      "constraints",
+      "empty",
+      "location",
+      "to",
+      "utilities",
+      "with"
+    ],
+    "usage": 0,
+    "deps": [
+      "bpy"
+    ]
+  },
+  "blender/Utilities/parent_second_half_to_first_half_of_selection_alternating.py": {
+    "tags": [
+      "alternating",
+      "blender",
+      "first",
+      "half",
+      "of",
+      "parent",
+      "second",
+      "selection",
+      "to",
+      "utilities"
+    ],
+    "usage": 0,
+    "deps": [
+      "bpy"
+    ]
+  },
+  "blender/Utilities/mutli_gpu_render.py": {
+    "tags": [
+      "blender",
+      "gpu",
+      "mutli",
+      "render",
+      "utilities"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "blender/Utilities/decouple_top_level_from_parents.py": {
+    "tags": [
+      "blender",
+      "decouple",
+      "from",
+      "level",
+      "parents",
+      "top",
+      "utilities"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "blender/rendering_scripts/render2.py": {
+    "tags": [
+      "blender",
+      "render2",
+      "rendering",
+      "scripts"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "blender/rendering_scripts/render.py": {
+    "tags": [
+      "blender",
+      "render",
+      "rendering",
+      "scripts"
+    ],
+    "usage": 0,
+    "deps": [
+      "PIL"
+    ]
+  },
+  "blender/rendering_scripts/render_across_42.py": {
+    "tags": [
+      "42",
+      "across",
+      "blender",
+      "render",
+      "rendering",
+      "scripts"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "blender/rendering_scripts/render_across_4.py": {
+    "tags": [
+      "4",
+      "across",
+      "blender",
+      "render",
+      "rendering",
+      "scripts"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "blender/Generators/Structures/blueprint_to_svg.py": {
+    "tags": [
+      "blender",
+      "blueprint",
+      "generators",
+      "structures",
+      "svg",
+      "to"
+    ],
+    "usage": 0,
+    "deps": [
+      "PIL"
+    ]
+  },
+  "blender/Generators/Structures/blueprint_1.py": {
+    "tags": [
+      "1",
+      "blender",
+      "blueprint",
+      "generators",
+      "structures"
+    ],
+    "usage": 0,
+    "deps": [
+      "bpy",
+      "bmesh"
+    ]
+  },
+  "data_management/string/bad_text_scanner.py": {
+    "tags": [
+      "bad",
+      "data",
+      "management",
+      "scanner",
+      "string",
+      "text"
+    ],
+    "usage": 0,
+    "deps": [
+      "easygui"
+    ]
+  },
+  "data_management/code/deprinter.py": {
+    "tags": [
+      "code",
+      "data",
+      "deprinter",
+      "management"
+    ],
+    "usage": 0,
+    "deps": [
+      "easygui"
+    ]
+  },
+  "data_management/code/ghost_print_remover.py": {
+    "tags": [
+      "code",
+      "data",
+      "ghost",
+      "management",
+      "print",
+      "remover"
+    ],
+    "usage": 0,
+    "deps": [
+      "easygui"
+    ]
+  },
+  "data_management/dictionary/main.py": {
+    "tags": [
+      "data",
+      "dictionary",
+      "main",
+      "management"
+    ],
+    "usage": 0,
+    "deps": [
+      "gui"
+    ]
+  },
+  "data_management/dictionary/spreadsheet_list_to_dict.py": {
+    "tags": [
+      "data",
+      "dict",
+      "dictionary",
+      "list",
+      "management",
+      "spreadsheet",
+      "to"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "data_management/data_transfer/zim_to_markdown.py": {
+    "tags": [
+      "data",
+      "management",
+      "markdown",
+      "to",
+      "transfer",
+      "zim"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "data_management/Text_files/directory_of_txts_to_file.py": {
+    "tags": [
+      "data",
+      "directory",
+      "file",
+      "files",
+      "management",
+      "of",
+      "text",
+      "to",
+      "txts"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "data_management/string/string_builder/db_launch.py": {
+    "tags": [
+      "builder",
+      "data",
+      "db",
+      "launch",
+      "management",
+      "string"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "data_management/string/string_builder/ai_prompts.py": {
+    "tags": [
+      "ai",
+      "builder",
+      "data",
+      "management",
+      "prompts",
+      "string"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "data_management/dictionary/gui/add_slots_window.py": {
+    "tags": [
+      "add",
+      "data",
+      "dictionary",
+      "gui",
+      "management",
+      "slots",
+      "window"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "data_management/dictionary/gui/edit_slots_window.py": {
+    "tags": [
+      "data",
+      "dictionary",
+      "edit",
+      "gui",
+      "management",
+      "slots",
+      "window"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "data_management/dictionary/gui/duplicate_dict_window.py": {
+    "tags": [
+      "data",
+      "dict",
+      "dictionary",
+      "duplicate",
+      "gui",
+      "management",
+      "window"
+    ],
+    "usage": 0,
+    "deps": [
+      "dictionary",
+      "file_io"
+    ]
+  },
+  "data_management/dictionary/gui/__init__.py": {
+    "tags": [
+      "data",
+      "dictionary",
+      "gui",
+      "init",
+      "management"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "data_management/dictionary/gui/window.py": {
+    "tags": [
+      "data",
+      "dictionary",
+      "gui",
+      "management",
+      "window"
+    ],
+    "usage": 0,
+    "deps": [
+      "create_dictionary_window",
+      "add_slots_window",
+      "edit_slots_window"
+    ]
+  },
+  "data_management/dictionary/gui/create_dictionary_window.py": {
+    "tags": [
+      "create",
+      "data",
+      "dictionary",
+      "gui",
+      "management",
+      "window"
+    ],
+    "usage": 0,
+    "deps": [
+      "PyQt5"
+    ]
+  },
+  "data_management/dictionary/dictionary/dictionary.py": {
+    "tags": [
+      "data",
+      "dictionary",
+      "management"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "data_management/dictionary/external_module/access.py": {
+    "tags": [
+      "access",
+      "data",
+      "dictionary",
+      "external",
+      "management",
+      "module"
+    ],
+    "usage": 0,
+    "deps": [
+      "dictionary"
+    ]
+  },
+  "data_management/dictionary/file_io/save_load.py": {
+    "tags": [
+      "data",
+      "dictionary",
+      "file",
+      "io",
+      "load",
+      "management",
+      "save"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "data_management/dictionary/file_io/export.py": {
+    "tags": [
+      "data",
+      "dictionary",
+      "export",
+      "file",
+      "io",
+      "management"
+    ],
+    "usage": 0,
+    "deps": [
+      "pyperclip"
+    ]
+  },
+  "data_management/caryard/path/to/stock-management-software/voice_command/import_data.py": {
+    "tags": [
+      "caryard",
+      "command",
+      "data",
+      "import",
+      "management",
+      "path",
+      "software",
+      "stock",
+      "to",
+      "voice"
+    ],
+    "usage": 0,
+    "deps": [
+      "database",
+      "audio_feedback"
+    ]
+  },
+  "data_management/caryard/path/to/stock-management-software/voice_command/audio_feedback.py": {
+    "tags": [
+      "audio",
+      "caryard",
+      "command",
+      "data",
+      "feedback",
+      "management",
+      "path",
+      "software",
+      "stock",
+      "to",
+      "voice"
+    ],
+    "usage": 0,
+    "deps": [
+      "pyttsx3"
+    ]
+  },
+  "data_management/caryard/path/to/stock-management-software/voice_command/voice_commands.py": {
+    "tags": [
+      "caryard",
+      "command",
+      "commands",
+      "data",
+      "management",
+      "path",
+      "software",
+      "stock",
+      "to",
+      "voice"
+    ],
+    "usage": 0,
+    "deps": [
+      "import_data",
+      "audio_feedback"
+    ]
+  },
+  "data_management/caryard/path/to/stock-management-software/database/database.py": {
+    "tags": [
+      "caryard",
+      "data",
+      "database",
+      "management",
+      "path",
+      "software",
+      "stock",
+      "to"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "data_management/caryard/path/to/stock-management-software/database/models.py": {
+    "tags": [
+      "caryard",
+      "data",
+      "database",
+      "management",
+      "models",
+      "path",
+      "software",
+      "stock",
+      "to"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "data_management/caryard/path/to/stock-management-software/chatgpt/chatgpt_api.py": {
+    "tags": [
+      "api",
+      "caryard",
+      "chatgpt",
+      "data",
+      "management",
+      "path",
+      "software",
+      "stock",
+      "to"
+    ],
+    "usage": 0,
+    "deps": [
+      "chatgpt"
+    ]
+  },
+  "data_management/caryard/path/to/stock-management-software/chatgpt/whisper_api.py": {
+    "tags": [
+      "api",
+      "caryard",
+      "chatgpt",
+      "data",
+      "management",
+      "path",
+      "software",
+      "stock",
+      "to",
+      "whisper"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "data_management/caryard/path/to/stock-management-software/chatgpt/chatgpt_interface.py": {
+    "tags": [
+      "caryard",
+      "chatgpt",
+      "data",
+      "interface",
+      "management",
+      "path",
+      "software",
+      "stock",
+      "to"
+    ],
+    "usage": 0,
+    "deps": [
+      "chatgpt"
+    ]
+  },
+  "data_management/caryard/path/to/stock-management-software/stock_insights/charts.py": {
+    "tags": [
+      "caryard",
+      "charts",
+      "data",
+      "insights",
+      "management",
+      "path",
+      "software",
+      "stock",
+      "to"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "data_management/caryard/path/to/stock-management-software/stock_insights/reports.py": {
+    "tags": [
+      "caryard",
+      "data",
+      "insights",
+      "management",
+      "path",
+      "reports",
+      "software",
+      "stock",
+      "to"
+    ],
+    "usage": 0,
+    "deps": [
+      "pandas",
+      "matplotlib",
+      "database"
+    ]
+  },
+  "data_management/caryard/path/to/stock-management-software/stock_insights/visualizations.py": {
+    "tags": [
+      "caryard",
+      "data",
+      "insights",
+      "management",
+      "path",
+      "software",
+      "stock",
+      "to",
+      "visualizations"
+    ],
+    "usage": 0,
+    "deps": [
+      "matplotlib"
+    ]
+  },
+  "data_management/caryard/path/to/stock-management-software/associative_stock_location/location_algorithm.py": {
+    "tags": [
+      "algorithm",
+      "associative",
+      "caryard",
+      "data",
+      "location",
+      "management",
+      "path",
+      "software",
+      "stock",
+      "to"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "data_management/caryard/path/to/stock-management-software/associative_stock_location/track_location.py": {
+    "tags": [
+      "associative",
+      "caryard",
+      "data",
+      "location",
+      "management",
+      "path",
+      "software",
+      "stock",
+      "to",
+      "track"
+    ],
+    "usage": 0,
+    "deps": [
+      "associative_stock_location"
+    ]
+  },
+  "data_management/caryard/path/to/stock-management-software/associative_stock_location/retrieval.py": {
+    "tags": [
+      "associative",
+      "caryard",
+      "data",
+      "location",
+      "management",
+      "path",
+      "retrieval",
+      "software",
+      "stock",
+      "to"
+    ],
+    "usage": 0,
+    "deps": [
+      "associative_stock_location"
+    ]
+  },
+  "document_builders/entry_reporter/main.py": {
+    "tags": [
+      "builders",
+      "document",
+      "entry",
+      "main",
+      "reporter"
+    ],
+    "usage": 0,
+    "deps": [
+      "reportlab",
+      "PIL"
+    ]
+  },
+  "recording/vlogStation/vlog.py": {
+    "tags": [
+      "recording",
+      "vlog",
+      "vlogstation"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "recording/screenlapse/helper_functions.py": {
+    "tags": [
+      "functions",
+      "helper",
+      "recording",
+      "screenlapse"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "recording/screenlapse/__init__.py": {
+    "tags": [
+      "init",
+      "recording",
+      "screenlapse"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "recording/screenlapse/main_gui.py": {
+    "tags": [
+      "gui",
+      "main",
+      "recording",
+      "screenlapse"
+    ],
+    "usage": 0,
+    "deps": [
+      "image_capture",
+      "timelapse_generation",
+      "customization_options"
+    ]
+  },
+  "recording/screenlapse/image_capture/active_program_capture.py": {
+    "tags": [
+      "active",
+      "capture",
+      "image",
+      "program",
+      "recording",
+      "screenlapse"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "recording/screenlapse/image_capture/screenshot.py": {
+    "tags": [
+      "capture",
+      "image",
+      "recording",
+      "screenlapse",
+      "screenshot"
+    ],
+    "usage": 0,
+    "deps": [
+      "pyautogui"
+    ]
+  },
+  "recording/screenlapse/image_capture/program_capture.py": {
+    "tags": [
+      "capture",
+      "image",
+      "program",
+      "recording",
+      "screenlapse"
+    ],
+    "usage": 0,
+    "deps": [
+      "pyautogui",
+      "PIL"
+    ]
+  },
+  "recording/screenlapse/customization_options/output.py": {
+    "tags": [
+      "customization",
+      "options",
+      "output",
+      "recording",
+      "screenlapse"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "recording/screenlapse/customization_options/transitions.py": {
+    "tags": [
+      "customization",
+      "options",
+      "recording",
+      "screenlapse",
+      "transitions"
+    ],
+    "usage": 0,
+    "deps": []
+  },
+  "recording/screenlapse/customization_options/settings.py": {
+    "tags": [
+      "customization",
+      "options",
+      "recording",
+      "screenlapse",
+      "settings"
+    ],
+    "usage": 0,
+    "deps": [
+      "customization_options"
+    ]
+  },
+  "recording/screenlapse/timelapse_generation/generate_timelapse.py": {
+    "tags": [
+      "generate",
+      "generation",
+      "recording",
+      "screenlapse",
+      "timelapse"
+    ],
+    "usage": 0,
+    "deps": [
+      "image_capture",
+      "timelapse_generation",
+      "customization_options"
+    ]
+  },
+  "recording/screenlapse/timelapse_generation/add_effects.py": {
+    "tags": [
+      "add",
+      "effects",
+      "generation",
+      "recording",
+      "screenlapse",
+      "timelapse"
+    ],
+    "usage": 0,
+    "deps": [
+      "cv2"
+    ]
+  },
+  "recording/screenlapse/error_handling/error_handler.py": {
+    "tags": [
+      "error",
+      "handler",
+      "handling",
+      "recording",
+      "screenlapse"
+    ],
+    "usage": 0,
+    "deps": []
+  }
+}
