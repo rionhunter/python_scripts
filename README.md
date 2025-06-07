@@ -31,6 +31,7 @@ and GUI helpers.
 - `GPU/` – simple GPU detection scripts for Blender.
 - `HUD/` – overlay and heads‑up display utilities.
 - `image_alteration/` – tools for cropping, scaling and processing images.
+- `audio_editing/` – simple audio trimming and conversion utilities.
 - `maths/` – quick math helpers.
 - `recording/` – screen capture and timelapse utilities.
 - `text_editing/` – text manipulation scripts.
