@@ -1,0 +1,2 @@
+@echo off
+start spotify:track:0jGayco2vDiq3kMpPFN2bI?context=spotify:playlist:0bvdYRtOwsEIIi7bIjc8uS
