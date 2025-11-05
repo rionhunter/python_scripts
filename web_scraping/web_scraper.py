@@ -299,12 +299,37 @@ class SiteCrawler:
             if not soup:
                 continue
             
+            # Extract meaningful page data
+            # Remove scripts, styles, and navigation elements
+            for element in soup(['script', 'style', 'nav', 'footer', 'header']):
+                element.decompose()
+            
+            # Get main content
+            main_content = soup.find('main') or soup.find('article') or soup.find('body')
+            if main_content:
+                text_content = main_content.get_text(separator='\n', strip=True)
+            else:
+                text_content = soup.get_text(separator='\n', strip=True)
+            
+            # Get headings for structure
+            headings = [h.get_text(strip=True) for h in soup.find_all(['h1', 'h2', 'h3'])]
+            
+            # Get meta description
+            meta_desc = ''
+            meta_tag = soup.find('meta', attrs={'name': 'description'})
+            if meta_tag and meta_tag.get('content'):
+                meta_desc = meta_tag['content']
+            
             # Extract page data
             page_data = {
                 'url': url,
                 'depth': depth,
                 'title': soup.title.string if soup.title else '',
-                'text': soup.get_text(separator=' ', strip=True)[:1000]  # First 1000 chars
+                'description': meta_desc,
+                'headings': headings[:10],  # First 10 headings
+                'text': text_content[:2000],  # First 2000 chars
+                'text_length': len(text_content),
+                'link_count': len(self.scraper.extract_links(soup, url))
             }
             results.append(page_data)
             

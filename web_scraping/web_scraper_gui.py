@@ -145,12 +145,36 @@ class ScraperThread(QThread):
                 if not soup:
                     continue
                 
-                # Extract page data
+                # Extract page data with meaningful content
+                # Get main content (skip scripts, styles, etc.)
+                for script in soup(['script', 'style', 'nav', 'footer', 'header']):
+                    script.decompose()
+                
+                # Extract text from main content areas
+                main_content = soup.find('main') or soup.find('article') or soup.find('body')
+                if main_content:
+                    text_content = main_content.get_text(separator='\n', strip=True)
+                else:
+                    text_content = soup.get_text(separator='\n', strip=True)
+                
+                # Get all headings for structure
+                headings = [h.get_text(strip=True) for h in soup.find_all(['h1', 'h2', 'h3'])]
+                
+                # Get meta description if available
+                meta_desc = ''
+                meta_tag = soup.find('meta', attrs={'name': 'description'})
+                if meta_tag and meta_tag.get('content'):
+                    meta_desc = meta_tag['content']
+                
                 page_data = {
                     'url': current_url,
                     'depth': depth,
                     'title': soup.title.string if soup.title else '',
-                    'text': soup.get_text(separator=' ', strip=True)[:500]
+                    'description': meta_desc,
+                    'headings': headings[:10],  # First 10 headings
+                    'text': text_content[:2000],  # First 2000 chars of main content
+                    'text_length': len(text_content),
+                    'link_count': len(self.scraper.extract_links(soup, current_url))
                 }
                 results.append(page_data)
                 
@@ -642,8 +666,42 @@ class WebScraperGUI(QMainWindow):
         
         # Display results
         if isinstance(results_widget, QTextEdit):
-            # Text display
-            results_widget.setPlainText(json.dumps(results, indent=2, ensure_ascii=False))
+            # Format output based on result type
+            if 'pages' in results:
+                # Crawler results - format nicely
+                output = f"=== CRAWL RESULTS ===\n"
+                output += f"Total pages crawled: {results['total']}\n\n"
+                
+                for i, page in enumerate(results['pages'], 1):
+                    output += f"\n{'='*80}\n"
+                    output += f"PAGE {i}: {page['url']}\n"
+                    output += f"{'='*80}\n"
+                    output += f"Depth: {page['depth']}\n"
+                    output += f"Title: {page.get('title', 'N/A')}\n"
+                    
+                    if page.get('description'):
+                        output += f"Description: {page['description']}\n"
+                    
+                    output += f"Content Length: {page.get('text_length', 0)} characters\n"
+                    output += f"Links Found: {page.get('link_count', 0)}\n"
+                    
+                    if page.get('headings'):
+                        output += f"\nHeadings:\n"
+                        for heading in page['headings']:
+                            output += f"  • {heading}\n"
+                    
+                    output += f"\nContent Preview:\n"
+                    output += f"{'-'*80}\n"
+                    text_preview = page.get('text', '')[:1000]
+                    output += f"{text_preview}\n"
+                    
+                    if len(page.get('text', '')) > 1000:
+                        output += f"\n... (showing first 1000 of {page.get('text_length', 0)} characters)\n"
+                
+                results_widget.setPlainText(output)
+            else:
+                # Other results - default JSON formatting
+                results_widget.setPlainText(json.dumps(results, indent=2, ensure_ascii=False))
         else:
             # Table display
             table_data = results.get('table', [])
