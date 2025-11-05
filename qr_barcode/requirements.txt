@@ -1,0 +1,4 @@
+qrcode[pil]>=7.4.0
+python-barcode[images]>=0.15.0
+pyzbar>=0.1.9  # For reading QR/barcodes
+pillow>=10.0.0
