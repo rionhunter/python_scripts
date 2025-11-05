@@ -36,12 +36,15 @@ python web_scraper_gui.py
 - **Single Page Tab**: Extract data from individual pages
   - CSS selector and XPath support
   - Attribute extraction
-  - Wait for dynamic content (Selenium)
+  - Per-tab Selenium toggle for dynamic content
+  - Wait for specific elements to load
   - Live results preview
 
 - **Site Crawler Tab**: Crawl multiple pages recursively
   - Configurable depth and page limits
   - Same-domain restriction option
+  - Per-tab Selenium toggle
+  - Wait for elements on each page
   - Progress tracking
   - Batch export
 
@@ -49,10 +52,12 @@ python web_scraper_gui.py
   - Visual table preview
   - Direct CSV export
   - Custom table selectors
+  - Per-tab Selenium toggle for dynamic tables
+  - Wait for table to load
 
 - **Settings Tab**: Configure scraper behavior
-  - Rate limiting
-  - Selenium toggle
+  - Rate limiting (politeness delay)
+  - Default Selenium setting (can be overridden per-tab)
   - Custom user agent
   - Export format preferences
 

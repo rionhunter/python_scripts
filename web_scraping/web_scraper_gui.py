@@ -324,6 +324,21 @@ class WebScraperGUI(QMainWindow):
         
         layout.addWidget(selector_group)
         
+        # Selenium options
+        selenium_group = QGroupBox("Selenium Options")
+        selenium_layout = QVBoxLayout()
+        selenium_group.setLayout(selenium_layout)
+        
+        self.single_use_selenium = QCheckBox("Use Selenium (for JavaScript-heavy sites)")
+        self.single_use_selenium.setChecked(False)
+        selenium_layout.addWidget(self.single_use_selenium)
+        
+        selenium_help = QLabel("⚠️ Note: Selenium requires installation of selenium package and browser driver")
+        selenium_help.setStyleSheet("color: #666; font-style: italic; font-size: 9pt;")
+        selenium_layout.addWidget(selenium_help)
+        
+        layout.addWidget(selenium_group)
+        
         # Action buttons
         btn_layout = QHBoxLayout()
         
@@ -402,6 +417,29 @@ class WebScraperGUI(QMainWindow):
         
         layout.addWidget(options_group)
         
+        # Selenium options
+        selenium_group = QGroupBox("Selenium Options")
+        selenium_layout = QVBoxLayout()
+        selenium_group.setLayout(selenium_layout)
+        
+        self.crawler_use_selenium = QCheckBox("Use Selenium (for JavaScript-heavy sites)")
+        self.crawler_use_selenium.setChecked(False)
+        selenium_layout.addWidget(self.crawler_use_selenium)
+        
+        # Wait for element
+        wait_layout = QHBoxLayout()
+        wait_layout.addWidget(QLabel("Wait For Element:"))
+        self.crawler_wait = QLineEdit()
+        self.crawler_wait.setPlaceholderText(".loaded-content (optional)")
+        wait_layout.addWidget(self.crawler_wait)
+        selenium_layout.addLayout(wait_layout)
+        
+        selenium_help = QLabel("⚠️ Note: Selenium requires installation of selenium package and browser driver")
+        selenium_help.setStyleSheet("color: #666; font-style: italic; font-size: 9pt;")
+        selenium_layout.addWidget(selenium_help)
+        
+        layout.addWidget(selenium_group)
+        
         # Action buttons
         btn_layout = QHBoxLayout()
         
@@ -462,15 +500,30 @@ class WebScraperGUI(QMainWindow):
         selector_layout.addWidget(self.table_selector)
         options_layout.addLayout(selector_layout)
         
+        layout.addWidget(options_group)
+        
+        # Selenium options
+        selenium_group = QGroupBox("Selenium Options")
+        selenium_layout = QVBoxLayout()
+        selenium_group.setLayout(selenium_layout)
+        
+        self.table_use_selenium = QCheckBox("Use Selenium (for JavaScript-heavy sites)")
+        self.table_use_selenium.setChecked(False)
+        selenium_layout.addWidget(self.table_use_selenium)
+        
         # Wait for element
         wait_layout = QHBoxLayout()
-        wait_layout.addWidget(QLabel("Wait For (Selenium):"))
+        wait_layout.addWidget(QLabel("Wait For Element:"))
         self.table_wait = QLineEdit()
         self.table_wait.setPlaceholderText(".table-loaded (optional)")
         wait_layout.addWidget(self.table_wait)
-        options_layout.addLayout(wait_layout)
+        selenium_layout.addLayout(wait_layout)
         
-        layout.addWidget(options_group)
+        selenium_help = QLabel("⚠️ Note: Selenium requires installation of selenium package and browser driver")
+        selenium_help.setStyleSheet("color: #666; font-style: italic; font-size: 9pt;")
+        selenium_layout.addWidget(selenium_help)
+        
+        layout.addWidget(selenium_group)
         
         # Action buttons
         btn_layout = QHBoxLayout()
@@ -523,8 +576,13 @@ class WebScraperGUI(QMainWindow):
         scraper_layout.addLayout(rate_layout)
         
         # Use Selenium
-        self.use_selenium = QCheckBox("Use Selenium (for JavaScript sites)")
+        self.use_selenium = QCheckBox("Use Selenium by default (for JavaScript sites)")
         scraper_layout.addWidget(self.use_selenium)
+        
+        selenium_note = QLabel("ℹ️ Note: Each tab has its own Selenium toggle that overrides this default")
+        selenium_note.setStyleSheet("color: #0066cc; font-style: italic; font-size: 9pt; margin-left: 20px;")
+        selenium_note.setWordWrap(True)
+        scraper_layout.addWidget(selenium_note)
         
         # User agent
         ua_layout = QVBoxLayout()
@@ -560,13 +618,14 @@ class WebScraperGUI(QMainWindow):
         
         return widget
     
-    def get_scraper(self):
+    def get_scraper(self, use_selenium_override=None):
         """Get or create scraper instance with current settings"""
         if self.scraper:
             self.scraper.close()
         
         rate_limit = self.rate_limit.value()
-        use_selenium = self.use_selenium.isChecked()
+        # Use override if provided, otherwise use global setting
+        use_selenium = use_selenium_override if use_selenium_override is not None else self.use_selenium.isChecked()
         user_agent = self.user_agent.text().strip() or None
         
         self.scraper = WebScraper(
@@ -595,7 +654,8 @@ class WebScraperGUI(QMainWindow):
             'selector': self.single_css.text().strip() or None,
             'xpath': self.single_xpath.text().strip() or None,
             'attribute': self.single_attr.text().strip() or None,
-            'wait_for': self.single_wait.text().strip() or None
+            'wait_for': self.single_wait.text().strip() or None,
+            'use_selenium': self.single_use_selenium.isChecked()
         }
         
         self.start_scraping('single', params, self.single_results, self.single_export_btn)
@@ -612,7 +672,9 @@ class WebScraperGUI(QMainWindow):
             'url': url,
             'max_depth': self.crawler_depth.value(),
             'max_pages': self.crawler_pages.value(),
-            'same_domain': self.crawler_same_domain.isChecked()
+            'same_domain': self.crawler_same_domain.isChecked(),
+            'use_selenium': self.crawler_use_selenium.isChecked(),
+            'wait_for': self.crawler_wait.text().strip() or None
         }
         
         self.start_scraping('crawl', params, self.crawler_results, self.crawler_export_btn)
@@ -628,7 +690,8 @@ class WebScraperGUI(QMainWindow):
         params = {
             'url': url,
             'table_selector': self.table_selector.text().strip(),
-            'wait_for': self.table_wait.text().strip() or None
+            'wait_for': self.table_wait.text().strip() or None,
+            'use_selenium': self.table_use_selenium.isChecked()
         }
         
         self.start_scraping('table', params, self.table_results, self.table_export_btn)
@@ -652,8 +715,9 @@ class WebScraperGUI(QMainWindow):
             results_widget.setRowCount(0)
             results_widget.setColumnCount(0)
         
-        # Create and start thread
-        scraper = self.get_scraper()
+        # Create and start thread with per-tab selenium setting
+        use_selenium = params.get('use_selenium', False)
+        scraper = self.get_scraper(use_selenium_override=use_selenium)
         self.thread = ScraperThread(scraper, operation, params)
         self.thread.finished.connect(lambda r: self.scraping_finished(r, results_widget, export_btn))
         self.thread.error.connect(self.scraping_error)
