@@ -12,6 +12,7 @@ Comprehensive web scraping toolkit with Beautiful Soup + Selenium integration.
 - **Table extraction**: Automatic HTML table to JSON conversion
 - **Link discovery**: Recursive crawling with domain restrictions
 - **Export formats**: JSON, CSV, TXT
+- **GUI Interface**: PyQt6 graphical interface for easy access to all features
 
 ## Installation
 
@@ -22,7 +23,50 @@ pip install -r requirements.txt
 
 **Note**: Selenium is optional. For JavaScript-heavy sites, you'll also need ChromeDriver.
 
+## GUI Interface
+
+Launch the graphical interface for easy web scraping:
+
+```bash
+python web_scraper_gui.py
+```
+
+### GUI Features
+
+- **Single Page Tab**: Extract data from individual pages
+  - CSS selector and XPath support
+  - Attribute extraction
+  - Wait for dynamic content (Selenium)
+  - Live results preview
+
+- **Site Crawler Tab**: Crawl multiple pages recursively
+  - Configurable depth and page limits
+  - Same-domain restriction option
+  - Progress tracking
+  - Batch export
+
+- **Table Extractor Tab**: Extract HTML tables
+  - Visual table preview
+  - Direct CSV export
+  - Custom table selectors
+
+- **Settings Tab**: Configure scraper behavior
+  - Rate limiting
+  - Selenium toggle
+  - Custom user agent
+  - Export format preferences
+
 ## Usage Examples
+
+### GUI Usage
+
+1. Launch GUI: `python web_scraper_gui.py`
+2. Select appropriate tab (Single Page, Crawler, or Table)
+3. Enter URL and configure options
+4. Click scrape/extract button
+5. View results and export if needed
+
+### Command Line Usage
 
 ### Basic Page Scraping
 
