@@ -1,0 +1,27 @@
+# Macro Manager Requirements
+
+# Core UI
+PyQt6>=6.4.0
+PyQt6-Qt6>=6.4.0
+
+# Clipboard operations
+pyperclip>=1.8.2
+
+# Keyboard and mouse automation
+keyboard>=0.13.5
+pyautogui>=0.9.53
+pygetwindow>=0.0.9; sys_platform == 'win32'
+
+# Game controller support
+pygame>=2.3.0
+
+# MIDI device support
+mido>=1.2.10
+python-rtmidi>=1.5.0
+
+# Voice recognition
+SpeechRecognition>=3.10.0
+pyaudio>=0.2.13
+
+# Additional utilities
+Pillow>=9.5.0  # For pyautogui screenshot functionality

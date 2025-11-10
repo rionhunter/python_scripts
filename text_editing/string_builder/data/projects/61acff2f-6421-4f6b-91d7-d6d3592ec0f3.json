@@ -1,0 +1,22 @@
+{
+  "id": "61acff2f-6421-4f6b-91d7-d6d3592ec0f3",
+  "name": "FateNotebook",
+  "description": "",
+  "created_at": "2025-09-23T23:02:44.784847",
+  "modified_at": "2025-09-23T23:03:58.887391",
+  "chunks": [
+    {
+      "id": "7131c565-007f-4897-8a8c-f880af657c92",
+      "content": "The sole listener of the deep dive is the autheor of the draft of The Invention of Fate (T.I.O.F)",
+      "position": 0,
+      "created_at": "2025-09-23T23:03:35.875451",
+      "modified_at": "2025-09-23T23:03:48.184385",
+      "tags": [],
+      "formatting": {}
+    }
+  ],
+  "output_format": "plain",
+  "separator": "",
+  "prefix": "",
+  "suffix": ""
+}

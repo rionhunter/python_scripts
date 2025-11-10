@@ -1,3 +1,8 @@
+Launch scripts
+- GUI (PowerShell): powershell -ExecutionPolicy Bypass -File launchers\launch_dynamic_replacer_gui.ps1
+- GUI (Batch): launchers\launch_dynamic_replacer_gui.bat
+- Test: launchers\launch_dynamic_replacer_test.bat
+- Bash (POSIX): bash launchers/launch_dynamic_replacer.sh
 # python_scripts
 A collection of assorted helper scripts used across various projects.
 The tools range from quick text utilities to experiments with Blender
