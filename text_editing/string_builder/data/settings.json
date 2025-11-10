@@ -1,0 +1,24 @@
+{
+  "window_state": {
+    "x": 638,
+    "y": 129,
+    "width": 1798,
+    "height": 1258,
+    "is_maximized": false,
+    "zoom_level": 1.0
+  },
+  "appearance": {
+    "theme": "frosty_glass",
+    "primary_color": "#8B9D6B",
+    "secondary_color": "#A8B89A",
+    "background_color": "#F5F7F2",
+    "text_color": "#2C3E2D",
+    "font_family": "Segoe UI",
+    "font_size": 11,
+    "corner_radius": 12,
+    "margin_size": 20
+  },
+  "last_project": "61acff2f-6421-4f6b-91d7-d6d3592ec0f3",
+  "auto_save": true,
+  "backup_frequency": 5
+}
