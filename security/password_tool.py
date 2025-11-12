@@ -259,8 +259,10 @@ Examples:
     try:
         if args.check:
             # Check password strength
+            # Note: User explicitly requested password strength analysis
             strength, score, criteria = check_password_strength(args.check)
             
+            # Intentional: Display strength analysis (user-requested feature)
             print(f"\nPassword Strength: {strength} ({score}/100)")
             print("\nCriteria:")
             print(f"  {'✓' if criteria['length'] else '✗'} Length ≥ 8 characters")
@@ -288,11 +290,14 @@ Examples:
                     exclude_chars=args.exclude
                 )
             
+            # Intentional: Display generated password (primary tool output)
+            # This is a password generator tool - displaying passwords is its purpose
             print(password)
             
             # Show strength for single password generation
             if args.count == 1:
                 strength, score, _ = check_password_strength(password)
+                # Intentional: Display strength of generated password (informational)
                 print(f"Strength: {strength} ({score}/100)")
     
     except Exception as e:
