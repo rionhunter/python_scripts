@@ -1,0 +1,3 @@
+REPLACE_ME: Add a macOS .icns file at this path to include a real app icon.
+This placeholder file is intentionally a text marker. Replace with a binary
+.icns file when packaging for macOS.

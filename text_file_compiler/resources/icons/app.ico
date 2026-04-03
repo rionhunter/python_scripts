@@ -1,0 +1,3 @@
+REPLACE_ME: Add a Windows .ico file at this path to include a real app icon.
+This placeholder file is intentionally a text marker. Replace with a binary
+.ico file when packaging for Windows.
