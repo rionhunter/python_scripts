@@ -197,12 +197,17 @@ class FileBrowser(QTreeWidget):
             # Avoid heavy directory scanning during automated or headless runs
             skip_populate = bool(os.environ.get('PYTEST_CURRENT_TEST')) or os.environ.get('QT_QPA_PLATFORM') == 'offscreen'
             if not skip_populate:
-                self.populate_tree()
+                # Schedule population after the event loop starts to avoid blocking UI initialization
+                try:
+                    QTimer.singleShot(0, lambda: self.populate_tree(False))
+                except Exception:
+                    # Fall back to immediate populate if QTimer isn't available
+                    self.populate_tree(False)
         except Exception:
             # If environment inspect fails, populate by default
             self.populate_tree()
 
-    def populate_tree(self):
+    def populate_tree(self, recursive: bool = True):
         """Rebuild the tree from the current root directory."""
         self.clear()
         self._path_to_item.clear()
@@ -214,9 +219,33 @@ class FileBrowser(QTreeWidget):
         root_name = os.path.basename(self.current_directory.rstrip(os.sep)) or self.current_directory
         root_item = self._create_item(None, self.current_directory, True, root_name, self.current_directory)
         root_item.setExpanded(True)
-        self._populate_children(root_item, self.current_directory)
-        self._update_directory_states(root_item)
-        self.expandItem(root_item)
+        # Populate either just immediate children (fast) or full recursive tree.
+        if recursive:
+            # Full recursive population (existing behavior)
+            self._populate_children(root_item, self.current_directory)
+            self._update_directory_states(root_item)
+            self.expandItem(root_item)
+            return
+
+        try:
+            for item_info in FileProcessor.scan_directory(self.current_directory, include_hidden=False):
+                path = item_info['path']
+                is_dir = item_info['is_directory']
+                name = item_info['name']
+                subtitle = '' if is_dir else FileProcessor.format_file_size(item_info.get('size', 0))
+                child = self._create_item(root_item, path, is_dir, name, subtitle)
+                # For directories, leave collapsed and don't recurse until user expands.
+                if is_dir:
+                    child.setExpanded(False)
+
+            # Update tri-state for root based on immediate children
+            self._update_directory_states(root_item)
+            self.expandItem(root_item)
+        except Exception:
+            # Fall back to full population if scan fails
+            self._populate_children(root_item, self.current_directory)
+            self._update_directory_states(root_item)
+            self.expandItem(root_item)
 
     def _populate_children(self, parent_item: QTreeWidgetItem, directory: str):
         """Populate children under a directory node."""
