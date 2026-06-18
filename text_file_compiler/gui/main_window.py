@@ -11,7 +11,7 @@ from PyQt6.QtWidgets import (
     QLabel, QLineEdit, QFileDialog, QMessageBox, QTreeWidget, 
     QTreeWidgetItem, QCheckBox, QComboBox, QTabWidget, QProgressBar,
     QMenu, QMenuBar, QStatusBar, QFrame, QScrollArea, QGroupBox,
-    QInputDialog, QDialog, QDialogButtonBox, QSizePolicy
+    QInputDialog, QDialog, QDialogButtonBox, QSizePolicy, QToolButton
 )
 from PyQt6.QtCore import (
     Qt, QPoint, QSize, QRect, QTimer, QPropertyAnimation, QEasingCurve,
@@ -20,7 +20,7 @@ from PyQt6.QtCore import (
 from PyQt6.QtGui import (
     QFont, QColor, QPalette, QPixmap, QPainter, QBrush, QLinearGradient,
     QMouseEvent, QWheelEvent, QKeyEvent, QAction, QIcon, QPen,
-    QShortcut, QKeySequence,
+    QShortcut, QKeySequence, QCursor, QGuiApplication,
     QFontMetrics, QResizeEvent
 )
 
@@ -41,13 +41,12 @@ class GlassFrame(QFrame):
         super().__init__(parent)
         self.setStyleSheet("""
             QFrame {
-                background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                    stop: 0 rgba(245, 245, 220, 230),
-                    stop: 0.5 rgba(240, 248, 255, 220),
-                    stop: 1 rgba(250, 240, 230, 230));
-                border: 2px solid rgba(34, 139, 34, 180);
-                border-radius: 15px;
-                margin: 8px;
+                background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1,
+                    stop: 0 rgba(246, 249, 242, 235),
+                    stop: 1 rgba(236, 242, 232, 230));
+                border: 1px solid rgba(58, 128, 58, 170);
+                border-radius: 12px;
+                margin: 6px;
             }
         """)
 
@@ -61,9 +60,10 @@ class SlimTreeCard(QWidget):
     def __init__(self, title: str, subtitle: str, is_directory: bool, parent=None):
         super().__init__(parent)
         self.is_directory = is_directory
+        self.base_subtitle = subtitle
 
         layout = QHBoxLayout(self)
-        layout.setContentsMargins(8, 4, 8, 4)
+        layout.setContentsMargins(8, 3, 8, 3)
         layout.setSpacing(8)
 
         if is_directory:
@@ -72,29 +72,52 @@ class SlimTreeCard(QWidget):
             self.expand_button.setCheckable(True)
             self.expand_button.setChecked(True)
             self.expand_button.clicked.connect(self.expandRequested.emit)
-            layout.addWidget(self.expand_button)
+            layout.addWidget(self.expand_button, alignment=Qt.AlignmentFlag.AlignVCenter)
         else:
             self.expand_button = None
             spacer = QWidget()
             spacer.setFixedWidth(18)
-            layout.addWidget(spacer)
+            layout.addWidget(spacer, alignment=Qt.AlignmentFlag.AlignVCenter)
 
-        self.checkbox = QCheckBox()
-        self.checkbox.setTristate(is_directory)
-        self.checkbox.stateChanged.connect(lambda state: self.checkedChanged.emit(state == Qt.CheckState.Checked))
-        layout.addWidget(self.checkbox, alignment=Qt.AlignmentFlag.AlignTop)
+        self._check_state = Qt.CheckState.Unchecked
+
+        if is_directory:
+            self.checkbox = None
+            self.progress_toggle = QToolButton()
+            self.progress_toggle.setCheckable(True)
+            self.progress_toggle.setChecked(False)
+            self.progress_toggle.setFixedSize(10, 30)
+            self.progress_toggle.clicked.connect(self._on_directory_toggle_clicked)
+            self.progress_toggle.setToolTip("0% selected")
+            self.progress_toggle.setStyleSheet(
+                "QToolButton {"
+                "background-color: rgba(34, 139, 34, 25);"
+                "border: 1px solid rgba(34, 139, 34, 110);"
+                "border-radius: 4px;"
+                "padding: 0px;"
+                "}"
+                "QToolButton:checked {"
+                "background-color: rgba(34, 139, 34, 160);"
+                "}"
+            )
+            layout.addWidget(self.progress_toggle, alignment=Qt.AlignmentFlag.AlignVCenter)
+        else:
+            self.progress_toggle = None
+            self.checkbox = QCheckBox()
+            self.checkbox.setTristate(False)
+            self.checkbox.clicked.connect(self.checkedChanged.emit)
+            layout.addWidget(self.checkbox, alignment=Qt.AlignmentFlag.AlignVCenter)
 
         text_column = QVBoxLayout()
         text_column.setContentsMargins(0, 0, 0, 0)
         text_column.setSpacing(0)
+        text_column.setAlignment(Qt.AlignmentFlag.AlignVCenter)
 
         self.title_label = QLabel(title)
         self.title_label.setStyleSheet("font-weight: 700; color: rgba(34, 68, 34, 230);")
         text_column.addWidget(self.title_label)
 
-        self.subtitle_label = QLabel(subtitle)
-        self.subtitle_label.setStyleSheet("color: rgba(60, 70, 60, 180); font-size: 9pt;")
-        text_column.addWidget(self.subtitle_label)
+        self.subtitle_label = None
         layout.addLayout(text_column, 1)
 
         badge = QLabel("DIR" if is_directory else "FILE")
@@ -107,17 +130,16 @@ class SlimTreeCard(QWidget):
             "font-weight: 700;"
             "color: rgba(34, 90, 34, 220);"
         )
-        layout.addWidget(badge, alignment=Qt.AlignmentFlag.AlignTop)
+        layout.addWidget(badge, alignment=Qt.AlignmentFlag.AlignVCenter)
 
         self.setStyleSheet("""
             SlimTreeCard {
-                background: rgba(255, 255, 255, 210);
-                border: 1px solid rgba(34, 139, 34, 70);
-                border-radius: 10px;
+                background: transparent;
+                border: none;
             }
             SlimTreeCard:hover {
-                background: rgba(248, 252, 248, 230);
-                border: 1px solid rgba(34, 139, 34, 110);
+                background: transparent;
+                border: none;
             }
             SlimTreeCard QPushButton {
                 background: rgba(34, 139, 34, 20);
@@ -137,10 +159,79 @@ class SlimTreeCard(QWidget):
         """)
 
     def set_check_state(self, state: Qt.CheckState):
-        """Update checkbox state without emitting user-facing signals."""
-        previous = self.checkbox.blockSignals(True)
-        self.checkbox.setCheckState(state)
-        self.checkbox.blockSignals(previous)
+        """Update check state without emitting user-facing signals."""
+        self._check_state = state
+        if self.checkbox is not None:
+            previous = self.checkbox.blockSignals(True)
+            self.checkbox.setCheckState(state)
+            self.checkbox.blockSignals(previous)
+            return
+
+        if self.progress_toggle is None:
+            return
+
+        previous = self.progress_toggle.blockSignals(True)
+        self.progress_toggle.setChecked(state == Qt.CheckState.Checked)
+        self.progress_toggle.blockSignals(previous)
+
+    def check_state(self) -> Qt.CheckState:
+        """Return the visual check state for this card."""
+        if self.checkbox is not None:
+            return self.checkbox.checkState()
+        return self._check_state
+
+    def _on_directory_toggle_clicked(self, _checked: bool):
+        """Toggle folder inclusion based on the current tri-state summary."""
+        include_all = self._check_state == Qt.CheckState.Unchecked
+        previous = self.progress_toggle.blockSignals(True)
+        self.progress_toggle.setChecked(include_all)
+        self.progress_toggle.blockSignals(previous)
+        self.checkedChanged.emit(include_all)
+
+    def set_progress_ratio(self, ratio: float):
+        """Render a compact vertical fill bar for directory inclusion."""
+        if self.progress_toggle is None:
+            return
+
+        clamped = max(0.0, min(1.0, ratio))
+        percent = int(round(clamped * 100))
+        if percent >= 100:
+            state = Qt.CheckState.Checked
+        elif percent <= 0:
+            state = Qt.CheckState.Unchecked
+        else:
+            state = Qt.CheckState.PartiallyChecked
+        self._check_state = state
+
+        if clamped <= 0.0:
+            gradient = "rgba(34, 139, 34, 22)"
+        elif clamped >= 1.0:
+            gradient = "rgba(34, 139, 34, 165)"
+        else:
+            stop = max(0.01, min(0.99, clamped))
+            edge = min(0.999, stop + 0.001)
+            gradient = (
+                f"qlineargradient(x1:0, y1:1, x2:0, y2:0, "
+                f"stop:0 rgba(34, 139, 34, 165), "
+                f"stop:{stop:.3f} rgba(34, 139, 34, 165), "
+                f"stop:{edge:.3f} rgba(34, 139, 34, 22), "
+                "stop:1 rgba(34, 139, 34, 22))"
+            )
+
+        self.progress_toggle.setStyleSheet(
+            "QToolButton {"
+            f"background: {gradient};"
+            "border: 1px solid rgba(34, 139, 34, 110);"
+            "border-radius: 4px;"
+            "padding: 0px;"
+            "}"
+            "QToolButton:checked {"
+            "border: 1px solid rgba(34, 139, 34, 170);"
+            "}"
+        )
+        self.progress_toggle.setToolTip(f"{percent}% of text files selected")
+        subtitle = self.base_subtitle or "Folder"
+        self.setToolTip(f"{subtitle}  |  {percent}% included")
 
     def set_expanded(self, expanded: bool):
         """Update the expansion affordance."""
@@ -153,7 +244,16 @@ class SlimTreeCard(QWidget):
 
     def set_check_enabled(self, enabled: bool):
         """Enable or disable checkbox interactions."""
-        self.checkbox.setEnabled(enabled)
+        if self.checkbox is not None:
+            self.checkbox.setEnabled(enabled)
+        if self.progress_toggle is not None:
+            self.progress_toggle.setEnabled(enabled)
+
+    def set_base_subtitle(self, subtitle: str):
+        """Persist base subtitle used when appending directory progress text."""
+        self.base_subtitle = subtitle
+        if self.progress_toggle is None:
+            self.setToolTip(subtitle)
 
 
 class FileBrowser(QTreeWidget):
@@ -168,6 +268,7 @@ class FileBrowser(QTreeWidget):
         self.current_directory = self.config.get_last_directory()
         self._path_to_item: dict[str, QTreeWidgetItem] = {}
         self._path_to_card: dict[str, SlimTreeCard] = {}
+        self._directory_file_totals: dict[str, int] = {}
         self._syncing_selection = False
 
         self.setColumnCount(1)
@@ -186,6 +287,15 @@ class FileBrowser(QTreeWidget):
             QTreeWidget::item {
                 border: none;
                 padding: 2px 0;
+            }
+            QTreeWidget::branch {
+                background: transparent;
+                border-image: none;
+                image: none;
+            }
+            QTreeWidget::branch:open,
+            QTreeWidget::branch:closed:has-children {
+                image: none;
             }
         """)
 
@@ -212,6 +322,7 @@ class FileBrowser(QTreeWidget):
         self.clear()
         self._path_to_item.clear()
         self._path_to_card.clear()
+        self._directory_file_totals.clear()
 
         if not os.path.isdir(self.current_directory):
             self.current_directory = os.path.expanduser("~")
@@ -264,7 +375,7 @@ class FileBrowser(QTreeWidget):
                 card = self._path_to_card[path]
                 card.set_check_enabled(has_children)
                 if not has_children:
-                    card.subtitle_label.setText("No text files")
+                    card.set_base_subtitle("No text files")
                     card.set_expanded(False)
                 child_item.setExpanded(False)
                 continue
@@ -289,9 +400,10 @@ class FileBrowser(QTreeWidget):
         item = QTreeWidgetItem(parent or self)
         item.setData(0, Qt.ItemDataRole.UserRole, path)
         item.setData(0, Qt.ItemDataRole.UserRole + 1, is_directory)
-        item.setSizeHint(0, QSize(0, 42 if is_directory else 38))
+        item.setSizeHint(0, QSize(0, 30 if is_directory else 30))
 
         card = SlimTreeCard(title, subtitle, is_directory, self)
+        card.set_base_subtitle(subtitle)
         card.checkedChanged.connect(partial(self._on_card_checked_changed, path, is_directory))
         if is_directory:
             card.expandRequested.connect(partial(self._on_expand_requested, path))
@@ -344,6 +456,7 @@ class FileBrowser(QTreeWidget):
             root_item = self.topLevelItem(0)
             if root_item:
                 self._update_directory_states(root_item)
+            self._refresh_directory_progress(selected)
         finally:
             self._syncing_selection = False
 
@@ -354,7 +467,7 @@ class FileBrowser(QTreeWidget):
         card = self._path_to_card[path]
 
         if not is_directory:
-            return card.checkbox.checkState()
+            return card.check_state()
 
         child_states: List[Qt.CheckState] = []
         for index in range(item.childCount()):
@@ -375,6 +488,35 @@ class FileBrowser(QTreeWidget):
 
         card.set_check_state(state)
         return state
+
+    def _refresh_directory_progress(self, selected: set[str]):
+        """Update compact folder progress bars from selected files."""
+        for path, item in self._path_to_item.items():
+            is_directory = bool(item.data(0, Qt.ItemDataRole.UserRole + 1))
+            if not is_directory:
+                continue
+
+            card = self._path_to_card[path]
+            total = self._directory_file_totals.get(path)
+            if total is None:
+                total = len(FileProcessor.collect_text_files(path, recursive=True, include_hidden=False))
+                self._directory_file_totals[path] = total
+
+            if total <= 0:
+                card.set_progress_ratio(0.0)
+                continue
+
+            selected_count = sum(1 for fpath in selected if self._is_relative_to(fpath, path))
+            card.set_progress_ratio(selected_count / total)
+
+    @staticmethod
+    def _is_relative_to(file_path: str, directory_path: str) -> bool:
+        """Compatibility helper for checking directory ancestry."""
+        try:
+            common = os.path.commonpath([os.path.abspath(file_path), os.path.abspath(directory_path)])
+            return common == os.path.abspath(directory_path)
+        except Exception:
+            return False
 
     def navigate_to(self, directory: str):
         """Navigate to a specific directory root."""
@@ -433,6 +575,7 @@ class MainWindow(QMainWindow):
         self.exclude_empty_enabled = self.config.get_exclude_empty_enabled()
         self.include_file_names_enabled = self.config.get_include_file_names_enabled()
         self.include_file_tree_enabled = self.config.get_include_file_tree_enabled()
+        self.remove_trailing_whitespace_enabled = self.config.get_remove_trailing_whitespace_enabled()
         self.include_subdirectories_enabled = self.config.get_include_subdirectories_enabled()
 
         self.right_drag_press_position = QPoint()
@@ -447,27 +590,13 @@ class MainWindow(QMainWindow):
         if current_project_path and os.path.exists(current_project_path):
             self.current_project_config = ProjectConfig(current_project_path)
         
-        # Initialize UI and styling (instrumented for debugging test hang)
-        print('MainWindow: calling init_ui()')
         self.init_ui()
-        print('MainWindow: returned from init_ui()')
-
-        print('MainWindow: calling setup_styling()')
         self.setup_styling()
-        print('MainWindow: returned from setup_styling()')
-
-        print('MainWindow: calling restore_window_geometry()')
         self.restore_window_geometry()
-        print('MainWindow: returned from restore_window_geometry()')
-
-        print('MainWindow: calling setup_gradient_outline()')
         self.setup_gradient_outline()
-        print('MainWindow: returned from setup_gradient_outline()')
 
         # Apply initial zoom and scale
-        print('MainWindow: calling apply_zoom_and_scale()')
         self.apply_zoom_and_scale()
-        print('MainWindow: returned from apply_zoom_and_scale()')
     
     def init_ui(self):
         """Initialize the user interface."""
@@ -493,9 +622,7 @@ class MainWindow(QMainWindow):
         content_layout = QVBoxLayout(self.glass_frame)
         content_layout.setContentsMargins(20, 20, 20, 20)
 
-        print('init_ui: calling create_project_name_banner()')
         self.create_project_name_banner(main_layout)
-        print('init_ui: returned from create_project_name_banner()')
         # Ensure the project name banner stays compact and the glass frame takes remaining space
         try:
             main_layout.setStretch(0, 0)
@@ -504,24 +631,16 @@ class MainWindow(QMainWindow):
             pass
         
         # Title bar
-        print('init_ui: calling create_title_bar()')
         self.create_title_bar(content_layout)
-        print('init_ui: returned from create_title_bar()')
         
         # Main content area
-        print('init_ui: calling create_main_content()')
         self.create_main_content(content_layout)
-        print('init_ui: returned from create_main_content()')
         
         # Status bar
-        print('init_ui: calling create_status_bar()')
         self.create_status_bar(content_layout)
-        print('init_ui: returned from create_status_bar()')
         
         # Setup keyboard shortcuts
-        print('init_ui: calling setup_shortcuts()')
         self.setup_shortcuts()
-        print('init_ui: returned from setup_shortcuts()')
 
     def create_project_name_banner(self, main_layout: QVBoxLayout):
         """Create floating project name banner above the glass frame."""
@@ -598,17 +717,18 @@ class MainWindow(QMainWindow):
     def create_title_bar(self, layout: QVBoxLayout):
         """Create custom title bar (window controls only, no title)."""
         title_layout = QHBoxLayout()
+        title_layout.addStretch(1)
         
         # Window controls
         btn_style = """
             QPushButton {
                 background: rgba(34, 139, 34, 100);
                 border: none;
-                border-radius: 12px;
+                border-radius: 4px;
                 color: white;
                 font-weight: bold;
-                width: 24px;
-                height: 24px;
+                width: 22px;
+                height: 22px;
                 margin: 2px;
             }
             QPushButton:hover {
@@ -616,12 +736,12 @@ class MainWindow(QMainWindow):
             }
         """
         
-        minimize_btn = QPushButton("−")
+        minimize_btn = QPushButton(" ")
         minimize_btn.setStyleSheet(btn_style)
         minimize_btn.clicked.connect(self.showMinimized)
         title_layout.addWidget(minimize_btn)
         
-        close_btn = QPushButton("×")
+        close_btn = QPushButton(" ")
         close_btn.setStyleSheet(btn_style.replace("34, 139, 34", "220, 20, 60"))
         close_btn.clicked.connect(self.close)
         title_layout.addWidget(close_btn)
@@ -659,52 +779,56 @@ class MainWindow(QMainWindow):
     def create_project_controls(self, layout: QVBoxLayout):
         """Create project management controls with status bar integrated."""
         project_layout = QHBoxLayout()
-        
-        # Project dropdown
+        project_layout.setSpacing(8)
+
+        project_label = QLabel("Project:")
+        project_label.setObjectName("projectLabel")
+        project_layout.addWidget(project_label)
+
+        self._updating_project_combo = False
         self.project_combo = QComboBox()
-        self.project_combo.addItem("New Project...")
-        self.populate_project_list()
-        self.project_combo.currentTextChanged.connect(self.on_project_changed)
-        project_layout.addWidget(QLabel("Project:"))
+        self.project_combo.setMinimumWidth(220)
+        self.project_combo.currentIndexChanged.connect(self.on_project_changed)
         project_layout.addWidget(self.project_combo)
-        
-        # Project buttons
-        new_btn = QPushButton("New")
-        new_btn.clicked.connect(self.new_project)
-        project_layout.addWidget(new_btn)
-        
-        save_btn = QPushButton("Save")
-        save_btn.clicked.connect(self.save_project)
-        project_layout.addWidget(save_btn)
-        
-        load_btn = QPushButton("Load")
-        load_btn.clicked.connect(self.load_project)
-        project_layout.addWidget(load_btn)
 
-        rename_btn = QPushButton("Rename")
-        rename_btn.clicked.connect(self.rename_project)
-        project_layout.addWidget(rename_btn)
+        self.project_actions_button = QToolButton()
+        self.project_actions_button.setText("Manage")
+        self.project_actions_button.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
+        self.project_actions_menu = QMenu(self)
 
-        settings_btn = QPushButton("Settings")
-        settings_btn.clicked.connect(self.open_settings_dialog)
-        project_layout.addWidget(settings_btn)
+        new_action = self.project_actions_menu.addAction("New Project")
+        new_action.triggered.connect(self.new_project)
+        save_action = self.project_actions_menu.addAction("Save Project")
+        save_action.triggered.connect(self.save_project)
+        load_action = self.project_actions_menu.addAction("Load Project File")
+        load_action.triggered.connect(self.load_project)
+        rename_action = self.project_actions_menu.addAction("Rename Project")
+        rename_action.triggered.connect(self.rename_project)
+        self.project_actions_menu.addSeparator()
+        settings_action = self.project_actions_menu.addAction("Settings")
+        settings_action.triggered.connect(self.open_settings_dialog)
+
+        self.project_actions_button.setMenu(self.project_actions_menu)
+        project_layout.addWidget(self.project_actions_button)
+
+        self.populate_project_list()
         
         project_layout.addStretch()
         
         # Status and view controls
         self.status_label = QLabel("Ready")
-        self.status_label.setStyleSheet("color: #2e8b57; margin: 5px; font-weight: bold;")
+        self.status_label.setStyleSheet("color: rgba(34, 94, 34, 220); margin: 5px; font-weight: 700;")
         project_layout.addWidget(self.status_label)
         
         project_layout.addSpacing(20)
         
         # Zoom controls
         self.zoom_label = QLabel(f"Zoom: {int(self.zoom_level * 100)}%")
-        self.zoom_label.setStyleSheet("margin: 5px;")
+        self.zoom_label.setStyleSheet("margin: 5px; color: rgba(66, 74, 66, 215);")
         project_layout.addWidget(self.zoom_label)
         
         self.scale_label = QLabel(f"Scale: {int(self.scale_factor * 100)}%")
-        self.scale_label.setStyleSheet("margin: 5px;")
+        self.scale_label.setStyleSheet("margin: 5px; color: rgba(66, 74, 66, 215);")
         project_layout.addWidget(self.scale_label)
         
         layout.addLayout(project_layout)
@@ -862,55 +986,62 @@ class MainWindow(QMainWindow):
                 background: transparent;
             }
             QWidget {
-                font-family: 'Segoe UI', Arial, sans-serif;
+                font-family: 'Segoe UI', 'Tahoma', sans-serif;
                 font-size: 10pt;
             }
             QPushButton {
-                background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                    stop: 0 rgba(34, 139, 34, 150),
-                    stop: 1 rgba(34, 139, 34, 120));
-                border: 1px solid rgba(34, 139, 34, 180);
-                border-radius: 8px;
+                background: rgba(132, 180, 118, 230);
+                border: 1px solid rgba(72, 130, 72, 170);
+                border-radius: 6px;
                 color: white;
-                padding: 6px 12px;
-                font-weight: bold;
+                padding: 5px 12px;
+                font-weight: 600;
             }
             QPushButton:hover {
-                background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                    stop: 0 rgba(34, 139, 34, 180),
-                    stop: 1 rgba(34, 139, 34, 150));
+                background: rgba(110, 168, 100, 235);
             }
             QPushButton:pressed {
-                background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                    stop: 0 rgba(34, 139, 34, 120),
-                    stop: 1 rgba(34, 139, 34, 180));
+                background: rgba(92, 150, 84, 240);
             }
-            QTextEdit, QListWidget {
-                background: rgba(255, 255, 255, 220);
-                border: 1px solid rgba(34, 139, 34, 100);
+            QToolButton {
+                background: rgba(255, 255, 255, 210);
+                border: 1px solid rgba(72, 130, 72, 140);
+                border-radius: 6px;
+                color: rgba(34, 80, 34, 220);
+                padding: 4px 10px;
+                font-weight: 600;
+            }
+            QToolButton:hover {
+                background: rgba(244, 250, 241, 235);
+            }
+            QTextEdit, QListWidget, QTreeWidget {
+                background: rgba(248, 251, 246, 232);
+                border: 1px solid rgba(72, 130, 72, 120);
                 border-radius: 8px;
                 padding: 8px;
             }
             QLineEdit, QComboBox {
-                background: rgba(255, 255, 255, 200);
-                border: 1px solid rgba(34, 139, 34, 100);
+                background: rgba(252, 255, 250, 225);
+                border: 1px solid rgba(72, 130, 72, 120);
                 border-radius: 6px;
                 padding: 4px 8px;
             }
-            QTabWidget::pane {
-                border: 1px solid rgba(34, 139, 34, 100);
-                border-radius: 8px;
+            QComboBox::drop-down {
+                border: none;
             }
-            QTabBar::tab {
-                background: rgba(34, 139, 34, 100);
-                color: white;
-                padding: 6px 12px;
-                margin-right: 2px;
-                border-top-left-radius: 6px;
-                border-top-right-radius: 6px;
+            QLabel#projectLabel {
+                color: rgba(34, 72, 34, 210);
+                font-weight: 700;
             }
-            QTabBar::tab:selected {
-                background: rgba(34, 139, 34, 150);
+            QProgressBar {
+                border: 1px solid rgba(72, 130, 72, 140);
+                border-radius: 6px;
+                background: rgba(252, 255, 250, 210);
+                text-align: center;
+            }
+            QProgressBar::chunk {
+                background: rgba(110, 168, 100, 235);
+                border-radius: 5px;
             }
         """)
     
@@ -951,10 +1082,61 @@ class MainWindow(QMainWindow):
         geometry = self.config.get_window_geometry()
         try:
             if not os.environ.get('PYTEST_CURRENT_TEST'):
-                self.setGeometry(geometry['x'], geometry['y'], geometry['width'], geometry['height'])
+                target_rect = QRect(
+                    geometry['x'],
+                    geometry['y'],
+                    geometry['width'],
+                    geometry['height'],
+                )
+                target_rect = self._fit_rect_to_current_display(target_rect)
+                self.setGeometry(target_rect)
         except Exception:
             # Ignore geometry restoration failures in headless/test environments
             pass
+
+    @staticmethod
+    def _normalize_rect_for_screen(rect: QRect, screen_geometry: QRect, *, force_to_screen: bool) -> QRect:
+        """Keep a window rect visible within a target screen's available geometry."""
+        if not screen_geometry.isValid():
+            return rect
+
+        width = max(400, min(rect.width(), screen_geometry.width()))
+        height = max(300, min(rect.height(), screen_geometry.height()))
+        normalized = QRect(rect.x(), rect.y(), width, height)
+
+        if force_to_screen or not screen_geometry.intersects(normalized):
+            normalized.moveCenter(screen_geometry.center())
+
+        if normalized.left() < screen_geometry.left():
+            normalized.moveLeft(screen_geometry.left())
+        if normalized.top() < screen_geometry.top():
+            normalized.moveTop(screen_geometry.top())
+        if normalized.right() > screen_geometry.right():
+            normalized.moveRight(screen_geometry.right())
+        if normalized.bottom() > screen_geometry.bottom():
+            normalized.moveBottom(screen_geometry.bottom())
+
+        return normalized
+
+    def _fit_rect_to_current_display(self, rect: QRect) -> QRect:
+        """Move restored geometry onto the display the user is currently interacting with."""
+        app = QApplication.instance() or QGuiApplication.instance()
+        if app is None:
+            return rect
+
+        target_screen = QGuiApplication.screenAt(QCursor.pos())
+        if target_screen is None:
+            target_screen = app.primaryScreen()
+        if target_screen is None:
+            return rect
+
+        available_geometry = target_screen.availableGeometry()
+        force_to_screen = not available_geometry.contains(rect.center())
+        return self._normalize_rect_for_screen(
+            rect,
+            available_geometry,
+            force_to_screen=force_to_screen,
+        )
     
     def save_window_geometry(self):
         """Save current window geometry."""
@@ -1137,8 +1319,69 @@ class MainWindow(QMainWindow):
     # Project management methods
     def populate_project_list(self):
         """Populate the project dropdown."""
-        # This would scan for .json project files in the projects directory
-        pass
+        if not hasattr(self, "project_combo"):
+            return
+
+        self._updating_project_combo = True
+        current_path = self.current_project_config.project_path if self.current_project_config else None
+        self.project_combo.clear()
+        self.project_combo.addItem("Select project...", None)
+
+        os.makedirs(self.config.projects_dir, exist_ok=True)
+        project_paths: List[str] = []
+        for entry in sorted(os.listdir(self.config.projects_dir), key=lambda value: value.lower()):
+            if not entry.lower().endswith(".json"):
+                continue
+            project_paths.append(os.path.join(self.config.projects_dir, entry))
+
+        for project_path in project_paths:
+            display_name = os.path.splitext(os.path.basename(project_path))[0]
+            try:
+                project = ProjectConfig(project_path)
+                project_name = project.get_name().strip()
+                if project_name:
+                    display_name = project_name
+            except Exception:
+                pass
+            self.project_combo.addItem(display_name, project_path)
+
+        if current_path:
+            match = self.project_combo.findData(current_path)
+            if match >= 0:
+                self.project_combo.setCurrentIndex(match)
+        self._updating_project_combo = False
+
+    def _set_project_combo_to_path(self, project_path: str):
+        """Select the matching project entry in the project combo box."""
+        if not hasattr(self, "project_combo"):
+            return
+        index = self.project_combo.findData(project_path)
+        if index >= 0:
+            previous = self.project_combo.blockSignals(True)
+            self.project_combo.setCurrentIndex(index)
+            self.project_combo.blockSignals(previous)
+
+    def _load_project_from_path(self, file_path: str):
+        """Load a project by path and synchronize UI state."""
+        self.current_project_config = ProjectConfig(file_path)
+        self.config.set_current_project(file_path)
+        self.set_project_name_display(self.current_project_config.get_name())
+        self.load_project_files()
+
+        browser_location = self.current_project_config.get_browser_location()
+        self.file_browser.navigate_to(browser_location)
+        self.path_edit.setText(browser_location)
+
+        output_settings = self.current_project_config.get_output_settings()
+        self.include_file_names_enabled = bool(output_settings.get('include_file_names', True))
+        self.include_file_tree_enabled = bool(output_settings.get('include_file_tree', True))
+        self.remove_trailing_whitespace_enabled = bool(output_settings.get('remove_trailing_whitespace', False))
+        self.config.set_include_file_names_enabled(self.include_file_names_enabled)
+        self.config.set_include_file_tree_enabled(self.include_file_tree_enabled)
+        self.config.set_remove_trailing_whitespace_enabled(self.remove_trailing_whitespace_enabled)
+
+        self.populate_project_list()
+        self._set_project_combo_to_path(file_path)
     
     def new_project(self):
         """Create a new project."""
@@ -1154,6 +1397,8 @@ class MainWindow(QMainWindow):
             self.config.set_current_project(file_path)
             self.set_project_name_display(self.current_project_config.get_name())
             self.load_project_files()
+            self.populate_project_list()
+            self._set_project_combo_to_path(file_path)
     
     def save_project(self):
         """Save current project."""
@@ -1162,11 +1407,14 @@ class MainWindow(QMainWindow):
             self.current_project_config.set_browser_location(self.file_browser.current_directory)
             self.current_project_config.set_output_settings({
                 'include_file_names': self.include_file_names_enabled,
-                'include_file_tree': self.include_file_tree_enabled
+                'include_file_tree': self.include_file_tree_enabled,
+                'remove_trailing_whitespace': self.remove_trailing_whitespace_enabled
             })
             
             try:
                 self.current_project_config.save_project()
+                self.populate_project_list()
+                self._set_project_combo_to_path(self.current_project_config.project_path)
                 self.status_label.setText("Project saved")
                 QTimer.singleShot(2000, lambda: self.status_label.setText("Ready"))
             except Exception as e:
@@ -1182,23 +1430,7 @@ class MainWindow(QMainWindow):
         
         if file_path:
             try:
-                self.current_project_config = ProjectConfig(file_path)
-                self.config.set_current_project(file_path)
-                self.set_project_name_display(self.current_project_config.get_name())
-                self.load_project_files()
-                
-                # Update browser location
-                browser_location = self.current_project_config.get_browser_location()
-                self.file_browser.navigate_to(browser_location)
-                self.path_edit.setText(browser_location)
-                
-                # Update output settings
-                output_settings = self.current_project_config.get_output_settings()
-                self.include_file_names_enabled = bool(output_settings.get('include_file_names', True))
-                self.include_file_tree_enabled = bool(output_settings.get('include_file_tree', True))
-                self.config.set_include_file_names_enabled(self.include_file_names_enabled)
-                self.config.set_include_file_tree_enabled(self.include_file_tree_enabled)
-                
+                self._load_project_from_path(file_path)
             except Exception as e:
                 QMessageBox.critical(self, "Error", f"Failed to load project: {e}")
     
@@ -1212,10 +1444,24 @@ class MainWindow(QMainWindow):
         if hasattr(self, "file_browser"):
             self.file_browser.set_selected_files(self.project_files)
     
-    def on_project_changed(self, project_name: str):
+    def on_project_changed(self, index: int):
         """Handle project selection change."""
-        # This would be implemented when project dropdown is fully functional
-        pass
+        if self._updating_project_combo:
+            return
+        if index < 0:
+            return
+        project_path = self.project_combo.itemData(index)
+        if not project_path:
+            return
+        if self.current_project_config and os.path.normcase(self.current_project_config.project_path) == os.path.normcase(project_path):
+            return
+
+        try:
+            self._load_project_from_path(project_path)
+            self.status_label.setText("Project loaded")
+            QTimer.singleShot(1800, lambda: self.status_label.setText("Ready"))
+        except Exception as exc:
+            QMessageBox.critical(self, "Error", f"Failed to load selected project: {exc}")
 
     def on_auto_populate_toggled(self, checked: bool):
         """Enable or disable directory auto-population."""
@@ -1229,6 +1475,11 @@ class MainWindow(QMainWindow):
         """Persist exclude-empty-files toggle setting."""
         self.exclude_empty_enabled = checked
         self.config.set_exclude_empty_enabled(checked)
+
+    def on_remove_trailing_whitespace_toggled(self, checked: bool):
+        """Persist remove-trailing-whitespace toggle setting."""
+        self.remove_trailing_whitespace_enabled = checked
+        self.config.set_remove_trailing_whitespace_enabled(checked)
 
     def open_settings_dialog(self):
         """Open settings dialog for compile and browser behavior toggles."""
@@ -1256,6 +1507,10 @@ class MainWindow(QMainWindow):
         include_tree_cb.setChecked(self.include_file_tree_enabled)
         dialog_layout.addWidget(include_tree_cb)
 
+        trim_trailing_ws_cb = QCheckBox("Remove trailing whitespace when compiling")
+        trim_trailing_ws_cb.setChecked(self.remove_trailing_whitespace_enabled)
+        dialog_layout.addWidget(trim_trailing_ws_cb)
+
         button_box = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
         dialog_layout.addWidget(button_box)
         button_box.accepted.connect(dialog.accept)
@@ -1273,6 +1528,8 @@ class MainWindow(QMainWindow):
 
             self.include_file_tree_enabled = include_tree_cb.isChecked()
             self.config.set_include_file_tree_enabled(self.include_file_tree_enabled)
+
+            self.on_remove_trailing_whitespace_toggled(trim_trailing_ws_cb.isChecked())
 
             self.status_label.setText("Settings updated")
             QTimer.singleShot(1800, lambda: self.status_label.setText("Ready"))
@@ -1533,9 +1790,13 @@ class MainWindow(QMainWindow):
 
     def navigate_to_parent_directory(self):
         """Move the tree root to the parent directory of the current root."""
-        current_directory = self.file_browser.current_directory
-        parent_directory = os.path.dirname(current_directory.rstrip(os.sep)) or current_directory
-        if parent_directory and parent_directory != current_directory:
+        current_directory = self.file_browser.current_directory or self.path_edit.text().strip()
+        if not current_directory:
+            return
+
+        normalized_directory = os.path.abspath(current_directory)
+        parent_directory = os.path.dirname(normalized_directory)
+        if parent_directory and parent_directory != normalized_directory:
             self.file_browser.navigate_to(parent_directory)
     
     def browse_directory(self):
@@ -1564,7 +1825,8 @@ class MainWindow(QMainWindow):
             'description': self.current_project_config.get_description() if self.current_project_config else "",
             'output_settings': {
                 'include_file_names': self.include_file_names_enabled,
-                'include_file_tree': self.include_file_tree_enabled
+                'include_file_tree': self.include_file_tree_enabled,
+                'remove_trailing_whitespace': self.remove_trailing_whitespace_enabled
             }
         }
         

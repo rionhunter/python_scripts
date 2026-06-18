@@ -14,6 +14,20 @@ class FileProcessor:
     """Utility class for file processing operations."""
 
     @staticmethod
+    def remove_trailing_whitespace(content: str) -> str:
+        """Strip trailing spaces and tabs from each line while preserving line endings."""
+        normalized_lines = []
+        for line in content.splitlines(keepends=True):
+            line_body = line.rstrip('\r\n').rstrip(' \t')
+            line_ending = line[len(line.rstrip('\r\n')):]
+            normalized_lines.append(f"{line_body}{line_ending}")
+
+        if not normalized_lines:
+            return content.rstrip(' \t')
+
+        return ''.join(normalized_lines)
+
+    @staticmethod
     def natural_sort_key(value: str) -> tuple:
         """Create a case-insensitive natural sort key for names with numbers."""
         parts = re.split(r'(\d+)', value.lower())

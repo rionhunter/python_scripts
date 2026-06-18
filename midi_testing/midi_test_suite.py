@@ -37,6 +37,8 @@ from input_tester import MIDIInputTester
 from output_tester import MIDIOutputTester
 from latency_tester import MIDILatencyTester
 from pipeline_diagnostics import MIDIPipelineDiagnostics
+from advanced_input_tester import AdvancedMIDIInputTester
+from windows_midi_troubleshooter import WindowsMIDITroubleshooter
 from utils import ColorPrinter, clear_screen
 
 class MIDITestSuite:
@@ -47,6 +49,8 @@ class MIDITestSuite:
         self.output_tester = MIDIOutputTester()
         self.latency_tester = MIDILatencyTester()
         self.diagnostics = MIDIPipelineDiagnostics()
+        self.advanced_input_tester = AdvancedMIDIInputTester()
+        self.troubleshooter = WindowsMIDITroubleshooter()
     
     def run_interactive_menu(self):
         """Run an interactive menu for testing various MIDI functions."""
@@ -59,12 +63,14 @@ class MIDITestSuite:
             print("2. Test MIDI Input")
             print("3. Test MIDI Output")
             print("4. Latency Test")
-            print("5. Full Pipeline Diagnostics")
+            print("5. Full Pipeline Diagnostics") 
             print("6. Connection Test")
             print("7. Real-time Monitor")
+            print("8. Advanced Input Testing (Multi-Backend)")
+            print("9. Windows MIDI Troubleshooter")
             print("0. Exit")
             
-            choice = input("\nEnter your choice (0-7): ").strip()
+            choice = input("\nEnter your choice (0-9): ").strip()
             
             if choice == '0':
                 break
@@ -82,6 +88,10 @@ class MIDITestSuite:
                 self.connection_test()
             elif choice == '7':
                 self.real_time_monitor()
+            elif choice == '8':
+                self.advanced_input_test()
+            elif choice == '9':
+                self.windows_troubleshoot()
             else:
                 self.printer.error("Invalid choice. Please try again.")
             
@@ -163,6 +173,81 @@ class MIDITestSuite:
         clear_screen()
         self.printer.print_header("Real-time MIDI Monitor")
         self.input_tester.real_time_monitor()
+    
+    def advanced_input_test(self):
+        """Advanced input testing with multiple backends."""
+        clear_screen()
+        self.printer.print_header("Advanced MIDI Input Testing")
+        devices = self.device_scanner.get_input_devices()
+        
+        if not devices:
+            self.printer.error("No MIDI input devices found!")
+            return
+        
+        print("Available input devices:")
+        for i, device in enumerate(devices):
+            print(f"{i}: {device}")
+        
+        try:
+            choice = int(input(f"\nSelect device for comprehensive testing (0-{len(devices)-1}): "))
+            if 0 <= choice < len(devices):
+                device_string = devices[choice]
+                self.printer.info(f"Running comprehensive backend testing for: {device_string}")
+                
+                # Test with all backends
+                success = self.advanced_input_tester.test_device_all_backends(device_string)
+                
+                if success and self.advanced_input_tester.successful_backends:
+                    response = input("\nWould you like to start monitoring with a working backend? (y/n): ")
+                    if response.lower() == 'y':
+                        self.advanced_input_tester.test_with_working_backend(device_string)
+                else:
+                    self.printer.error("No backends could successfully access this device.")
+                    self.printer.info("Consider running the Windows MIDI Troubleshooter (option 9)")
+            else:
+                self.printer.error("Invalid device selection.")
+        except ValueError:
+            self.printer.error("Invalid input. Please enter a number.")
+    
+    def windows_troubleshoot(self):
+        """Run Windows MIDI troubleshooter."""
+        clear_screen()
+        self.printer.print_header("Windows MIDI Troubleshooter")
+        
+        print("Choose troubleshooting option:")
+        print("1. Run full diagnosis")
+        print("2. Quick fix (kill processes + restart audio service)")
+        print("3. Manual fix guidance")
+        print("0. Back to main menu")
+        
+        choice = input("\nEnter your choice (0-3): ").strip()
+        
+        if choice == '1':
+            self.troubleshooter.run_full_diagnosis()
+        elif choice == '2':
+            self.printer.info("Running quick fixes...")
+            self.troubleshooter._check_running_midi_processes()
+            if self.troubleshooter.midi_processes:
+                self.troubleshooter.kill_midi_processes()
+            self.troubleshooter.restart_audio_service()
+            self.printer.success("Quick fixes applied. Try your MIDI device again.")
+        elif choice == '3':
+            self.printer.print_header("Manual Fix Guidance")
+            print("Common solutions for 'MidiInWinMM::openPort' errors:")
+            print()
+            print("1. Close all other MIDI applications (DAWs, music software)")
+            print("2. Run this program as Administrator")
+            print("3. Restart Windows Audio Service:")
+            print("   - Press Win+R, type 'services.msc', press Enter")
+            print("   - Find 'Windows Audio', right-click, select 'Restart'")
+            print("4. Check Device Manager for MIDI device issues:")
+            print("   - Press Win+X, select 'Device Manager'")
+            print("   - Look for devices with yellow warning icons")
+            print("5. Try a different MIDI backend (use option 8 in main menu)")
+            print("6. Temporarily disable antivirus/firewall")
+            print("7. Update or reinstall MIDI device drivers")
+        elif choice != '0':
+            self.printer.error("Invalid choice.")
 
 def main():
     parser = argparse.ArgumentParser(

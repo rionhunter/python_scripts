@@ -32,7 +32,7 @@ class Compiler:
         if project_config.get('output_settings', {}).get('include_file_tree', True):
             file_tree = self._create_file_tree_for_files(files)
             if file_tree:
-                output_parts.append(f"## File Structure\n\n```\n{file_tree}```\n")
+                output_parts.append(f"## File Structure\n\n{file_tree}\n")
         
         # Process each file
         for file_path in files:
@@ -42,7 +42,7 @@ class Compiler:
                     output_parts.append(file_content)
             except Exception as e:
                 error_msg = f"Error processing {file_path}: {str(e)}"
-                output_parts.append(f"```\n{error_msg}\n```\n")
+                output_parts.append(f"{error_msg}\n")
         
         # Add footer
         output_parts.append(self._create_footer(files))
@@ -79,22 +79,27 @@ class Compiler:
     
     def _process_file(self, file_path: str, project_config: Dict[str, Any]) -> str:
         """Process a single file and return its formatted content."""
+        output_settings = project_config.get('output_settings', {})
+
         if not os.path.exists(file_path):
-            return f"```\nFile not found: {file_path}\n```\n"
+            return f"File not found: {file_path}\n"
         
         # Check if file is text
         if not self.file_processor.is_text_file(file_path):
             file_info = self.file_processor.get_file_info(file_path)
             size_str = self.file_processor.format_file_size(file_info['size'])
-            return f"```\nBinary file: {file_path} ({size_str})\n```\n"
+            return f"Binary file: {file_path} ({size_str})\n"
         
         try:
             content, encoding = self.file_processor.read_file_with_encoding(file_path)
+
+            if output_settings.get('remove_trailing_whitespace', False):
+                content = self.file_processor.remove_trailing_whitespace(content)
             
             output_parts = []
             
             # Add file header if enabled
-            if project_config.get('output_settings', {}).get('include_file_names', True):
+            if output_settings.get('include_file_names', True):
                 file_name = os.path.basename(file_path)
                 rel_path = self._get_display_path(file_path)
                 
@@ -110,27 +115,16 @@ class Compiler:
             
             # Add file content
             if content.strip():
-                # Detect file type for syntax highlighting
-                file_ext = os.path.splitext(file_path)[1].lower()
-                language = self._get_language_from_extension(file_ext)
-                
-                if language:
-                    output_parts.append(f"```{language}")
-                    output_parts.append(content)
-                    output_parts.append("```")
-                else:
-                    output_parts.append("```")
-                    output_parts.append(content)
-                    output_parts.append("```")
+                output_parts.append(content)
             else:
-                output_parts.append("```\n(Empty file)\n```")
+                output_parts.append("(Empty file)")
             
             output_parts.append("")  # Add spacing
             
             return "\n".join(output_parts)
             
         except Exception as e:
-            return f"```\nError reading {file_path}: {str(e)}\n```\n"
+            return f"Error reading {file_path}: {str(e)}\n"
     
     def _get_display_path(self, file_path: str) -> str:
         """Get a display-friendly file path."""
