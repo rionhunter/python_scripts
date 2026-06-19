@@ -38,7 +38,10 @@ from output_tester import MIDIOutputTester
 from latency_tester import MIDILatencyTester
 from pipeline_diagnostics import MIDIPipelineDiagnostics
 from advanced_input_tester import AdvancedMIDIInputTester
-from windows_midi_troubleshooter import WindowsMIDITroubleshooter
+try:
+    from windows_midi_troubleshooter import WindowsMIDITroubleshooter
+except Exception:  # pragma: no cover - optional Windows-only dependency
+    WindowsMIDITroubleshooter = None
 from utils import ColorPrinter, clear_screen
 
 class MIDITestSuite:
@@ -50,7 +53,7 @@ class MIDITestSuite:
         self.latency_tester = MIDILatencyTester()
         self.diagnostics = MIDIPipelineDiagnostics()
         self.advanced_input_tester = AdvancedMIDIInputTester()
-        self.troubleshooter = WindowsMIDITroubleshooter()
+        self.troubleshooter = WindowsMIDITroubleshooter() if WindowsMIDITroubleshooter is not None else None
     
     def run_interactive_menu(self):
         """Run an interactive menu for testing various MIDI functions."""
@@ -213,6 +216,9 @@ class MIDITestSuite:
         """Run Windows MIDI troubleshooter."""
         clear_screen()
         self.printer.print_header("Windows MIDI Troubleshooter")
+        if self.troubleshooter is None:
+            self.printer.error("Windows MIDI Troubleshooter is only available on Windows with required dependencies.")
+            return
         
         print("Choose troubleshooting option:")
         print("1. Run full diagnosis")

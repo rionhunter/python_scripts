@@ -2,8 +2,14 @@ import os
 import sys
 import argparse
 import pickle
-import tkinter as tk
-from tkinter import filedialog, messagebox
+import re
+try:
+    import tkinter as tk
+    from tkinter import filedialog, messagebox
+except Exception:  # pragma: no cover - optional GUI dependency
+    tk = None
+    filedialog = None
+    messagebox = None
 from pytube import YouTube
 try:
     # MoviePy <2.0
@@ -14,6 +20,11 @@ except Exception:  # pragma: no cover - compatibility path
 
 # Constants
 SAVE_FILE = "last_save_path.pkl"
+
+def sanitize_filename(name):
+    sanitized = re.sub(r'[<>:"/\\|?*\x00-\x1F]', "_", str(name or ""))
+    sanitized = sanitized.rstrip(" .")
+    return sanitized or "output"
 
 def load_last_save_path():
     if os.path.exists(SAVE_FILE):
@@ -156,7 +167,9 @@ def download_audio(youtube_url, start_time, end_time, file_format,
         return final_path
     except Exception as e:
         if show_ui:
-            messagebox.showerror("Error", str(e))
+            if messagebox is not None:
+                messagebox.showerror("Error", str(e))
+            return None
         raise
     finally:
         try:
@@ -177,6 +190,8 @@ def on_download():
 
 def run_gui():
     global root, url_entry, start_time_entry, end_time_entry, file_format_var
+    if tk is None:
+        raise RuntimeError("Tkinter is not available. Install Python with Tk support or run with --no-gui.")
     root = tk.Tk()
     root.title("YouTube Audio Downloader")
 
@@ -235,7 +250,7 @@ def main(argv=None):
         # If a directory was provided, infer file name from title
         try:
             yt = YouTube(args.url)
-            base = yt.title or 'output'
+            base = sanitize_filename(yt.title)
         except Exception:
             base = 'output'
         output_path = os.path.join(output_path, f"{base}.{args.format}")

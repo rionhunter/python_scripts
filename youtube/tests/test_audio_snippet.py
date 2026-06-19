@@ -30,9 +30,10 @@ def test_cli_download_snippet_mp3():
     # Downloads a 2-second snippet and verifies file exists and nonempty
     with tempfile.TemporaryDirectory() as tmp:
         out_path = os.path.join(tmp, "clip.mp3")
+        script_path = os.path.join(ROOT, "audio_snippet.py")
         cmd = [
             sys.executable,
-            "audio_snippet.py",
+            script_path,
             "--no-gui",
             "--url",
             YT_TEST_URL,
@@ -48,7 +49,7 @@ def test_cli_download_snippet_mp3():
             "128",
         ]
         print("Running:", " ".join(cmd))
-        res = subprocess.run(cmd, capture_output=True, text=True)
+        res = subprocess.run(cmd, capture_output=True, text=True, cwd=tmp)
         if res.returncode != 0:
             print("STDOUT:\n", res.stdout)
             print("STDERR:\n", res.stderr)

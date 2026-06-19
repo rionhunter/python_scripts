@@ -7,6 +7,7 @@ PyInstaller itself in CI; it's safe to run locally after building.
 """
 
 import argparse
+import subprocess
 import shutil
 import sys
 from pathlib import Path
@@ -22,9 +23,10 @@ def make_release(onefile: bool, output: Path) -> int:
         build_cmd.append('--onefile')
 
     print('Running:', ' '.join(build_cmd))
-    rc = shutil.os.system(' '.join(build_cmd))
+    rc = subprocess.run(build_cmd, check=False).returncode
     if rc != 0:
         print('Build step returned non-zero exit code:', rc)
+        return rc
 
     # Collect dist contents
     dist_dir = ROOT / 'dist'

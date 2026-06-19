@@ -21,7 +21,7 @@ python -m pip install --upgrade pip
 
 REM Install necessary libraries
 echo Installing necessary libraries...
-pip install pytube moviepy imageio-ffmpeg pydub tk
+pip install pytube moviepy imageio-ffmpeg pydub
 
 REM Deactivate the virtual environment
 deactivate

@@ -3,8 +3,11 @@ import sys
 import tempfile
 import unittest
 
-from PyQt6.QtWidgets import QApplication
-from PyQt6.QtCore import Qt
+try:
+    from PyQt6.QtWidgets import QApplication
+    from PyQt6.QtCore import Qt
+except Exception as exc:  # pragma: no cover - dependency guard
+    raise unittest.SkipTest(f"PyQt6 not available: {exc}")
 
 from gui.main_window import MainWindow
 from core.file_processor import FileProcessor

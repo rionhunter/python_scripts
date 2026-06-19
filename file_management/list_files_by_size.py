@@ -1,4 +1,5 @@
 import os
+import math
 import easygui
 
 def get_file_size(file_path):
@@ -43,5 +44,4 @@ def main():
         easygui.msgbox("File sizes compiled successfully!\nOutput file: {}".format(output_file_path))
 
 if __name__ == "__main__":
-    import math
     main()

@@ -5,8 +5,11 @@ import unittest
 from types import SimpleNamespace
 from unittest import mock
 
-from PyQt6.QtCore import QRect
-from PyQt6.QtWidgets import QApplication
+try:
+    from PyQt6.QtCore import QRect
+    from PyQt6.QtWidgets import QApplication
+except Exception as exc:  # pragma: no cover - dependency guard
+    raise unittest.SkipTest(f"PyQt6 not available: {exc}")
 
 from gui.main_window import FileBrowser, MainWindow
 from settings.config import Config
