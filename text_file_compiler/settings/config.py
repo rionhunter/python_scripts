@@ -140,6 +140,70 @@ class Config:
         """Save scale factor."""
         self.set_value('ui/scale', scale)
 
+    def get_auto_populate_enabled(self) -> bool:
+        """Get auto-populate toggle state."""
+        return self.get_value('ui/auto_populate_enabled', True, bool)
+
+    def set_auto_populate_enabled(self, enabled: bool):
+        """Save auto-populate toggle state."""
+        self.set_value('ui/auto_populate_enabled', enabled)
+
+    def get_exclude_empty_enabled(self) -> bool:
+        """Get exclude-empty-files toggle state."""
+        return self.get_value('ui/exclude_empty_enabled', True, bool)
+
+    def set_exclude_empty_enabled(self, enabled: bool):
+        """Save exclude-empty-files toggle state."""
+        self.set_value('ui/exclude_empty_enabled', enabled)
+
+    def get_file_filter_text(self) -> str:
+        """Get file list filter text."""
+        return self.get_value('ui/file_filter_text', '', str)
+
+    def set_file_filter_text(self, text: str):
+        """Save file list filter text."""
+        self.set_value('ui/file_filter_text', text)
+
+    def get_file_sort_mode(self) -> str:
+        """Get file list sort mode."""
+        return self.get_value('ui/file_sort_mode', 'Name ↑', str)
+
+    def set_file_sort_mode(self, mode: str):
+        """Save file list sort mode."""
+        self.set_value('ui/file_sort_mode', mode)
+
+    def get_include_file_names_enabled(self) -> bool:
+        """Get include-file-names output toggle state."""
+        return self.get_value('ui/include_file_names_enabled', True, bool)
+
+    def set_include_file_names_enabled(self, enabled: bool):
+        """Save include-file-names output toggle state."""
+        self.set_value('ui/include_file_names_enabled', enabled)
+
+    def get_include_file_tree_enabled(self) -> bool:
+        """Get include-file-tree output toggle state."""
+        return self.get_value('ui/include_file_tree_enabled', True, bool)
+
+    def set_include_file_tree_enabled(self, enabled: bool):
+        """Save include-file-tree output toggle state."""
+        self.set_value('ui/include_file_tree_enabled', enabled)
+
+    def get_remove_trailing_whitespace_enabled(self) -> bool:
+        """Get remove-trailing-whitespace output toggle state."""
+        return self.get_value('ui/remove_trailing_whitespace_enabled', False, bool)
+
+    def set_remove_trailing_whitespace_enabled(self, enabled: bool):
+        """Save remove-trailing-whitespace output toggle state."""
+        self.set_value('ui/remove_trailing_whitespace_enabled', enabled)
+
+    def get_include_subdirectories_enabled(self) -> bool:
+        """Get include-subdirectories-on-select toggle state."""
+        return self.get_value('ui/include_subdirectories_enabled', True, bool)
+
+    def set_include_subdirectories_enabled(self, enabled: bool):
+        """Save include-subdirectories-on-select toggle state."""
+        self.set_value('ui/include_subdirectories_enabled', enabled)
+
 
 class ProjectConfig:
     """Project-specific configuration."""
@@ -165,7 +229,8 @@ class ProjectConfig:
             'browser_location': os.path.expanduser("~"),
             'output_settings': {
                 'include_file_names': True,
-                'include_file_tree': True
+                'include_file_tree': True,
+                'remove_trailing_whitespace': False
             }
         }
     
@@ -228,7 +293,8 @@ class ProjectConfig:
         """Get output settings."""
         return self.config_data.get('output_settings', {
             'include_file_names': True,
-            'include_file_tree': True
+            'include_file_tree': True,
+            'remove_trailing_whitespace': False
         })
     
     def set_output_settings(self, settings: Dict[str, Any]):

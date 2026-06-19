@@ -49,6 +49,61 @@ cd text_file_compiler
 python main.py
 ```
 
+## Exportable Application Builds
+
+### Windows (recommended first target)
+
+Use the PowerShell build helper:
+
+```powershell
+./build_windows.ps1
+```
+
+For a single-file `.exe` build:
+
+```powershell
+./build_windows.ps1 -OneFile
+```
+
+Build outputs are written to:
+
+- `dist/TextFileCompiler/` (default folder build)
+- `dist/TextFileCompiler.exe` (with `-OneFile`)
+
+### Cross-platform build path (Windows/macOS/Linux)
+
+The project includes a Python packaging entry point that is OS-aware:
+
+```bash
+python -m pip install -r requirements.txt -r requirements-build.txt
+python build_package.py
+```
+
+Single-file build on any OS:
+
+```bash
+python build_package.py --onefile
+```
+
+This keeps the packaging flow serviceable across platforms while prioritizing Windows deployment first.
+
+### Packaging and Release Notes
+
+- A helper script `build_release.py` is provided to create a release zip from `dist/` after building with `build_package.py` or platform helpers.
+- Platform-specific icon files are expected under `resources/icons/`:
+  - `resources/icons/app.ico` (Windows)
+  - `resources/icons/app.icns` (macOS)
+  - `resources/icons/app.png` (Linux / fallback)
+- To create a local release (example):
+
+```bash
+python -m pip install -r requirements.txt -r requirements-build.txt
+python build_package.py --onefile
+python build_release.py --onefile --output release-windows.zip
+```
+
+Replace icon placeholders in `resources/icons/` with real icon files before packaging.
+
 ### Creating a New Project
 1. Click "New" in the project controls
 2. Choose a location and name for your project file
@@ -148,6 +203,10 @@ This project is open source and available under the MIT License.
 ### Application Won't Start
 - Ensure PyQt6 is properly installed: `pip install --upgrade PyQt6`
 - Check Python version: `python --version`
+
+### Offscreen / CI Font Warning
+
+If you run startup checks in `--offscreen` mode and see Qt font warnings, the app now sets `QT_QPA_FONTDIR` automatically to the first valid font directory it can find (PyQt6 fonts, then OS font folders). This improves runtime stability in local and CI environments.
 
 ### Files Not Loading
 - Verify file paths are accessible
